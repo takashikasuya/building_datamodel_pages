@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "label"
+    ],
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "label": {
+        "type": "object"
+      },
+      "comment": {
+        "type": "object"
+      },
+      "subclassOf": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

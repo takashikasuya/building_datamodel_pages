@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "type",
+      "domain",
+      "range",
+      "label"
+    ],
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "type": {
+        "enum": [
+          "ObjectProperty",
+          "DatatypeProperty"
+        ]
+      },
+      "domain": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "range": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "label": {
+        "type": "object"
+      },
+      "constraints": {
+        "type": "object"
+      }
+    }
+  }
+}

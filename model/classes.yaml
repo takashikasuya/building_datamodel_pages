@@ -1,0 +1,18 @@
+- id: ex:SpatialElement
+  label: { en: "Spatial Element", ja: "空間要素" }
+  comment: { en: "Abstract spatial element.", ja: "空間に関する抽象クラス。" }
+  subclassOf: [ owl:Thing ]
+  tags: ["core"]
+
+- id: ex:Building
+  label: { en: "Building", ja: "建物" }
+  comment: { en: "A physical building.", ja: "物理的な建物。" }
+  subclassOf: [ ex:SpatialElement ]
+
+- id: ex:Floor
+  label: { en: "Floor", ja: "フロア" }
+  subclassOf: [ ex:SpatialElement ]
+
+- id: ex:Room
+  label: { en: "Room", ja: "部屋" }
+  subclassOf: [ ex:SpatialElement ]

@@ -1,0 +1,4 @@
+idPatterns:
+  Building: "^B-[0-9]{3}$"
+  Floor: "^F-[0-9]{1,2}$"
+  Room: "^R-[0-9]{3}$"

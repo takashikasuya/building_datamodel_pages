@@ -1,0 +1,22 @@
+- id: ex:hasFloor
+  type: "ObjectProperty"
+  domain: [ ex:Building ]
+  range:  [ ex:Floor ]
+  label: { en: "has floor", ja: "フロアを持つ" }
+  constraints:
+    minCount: 1
+
+- id: ex:hasRoom
+  type: "ObjectProperty"
+  domain: [ ex:Floor ]
+  range:  [ ex:Room ]
+  label: { en: "has room", ja: "部屋を持つ" }
+
+- id: ex:buildingName
+  type: "DatatypeProperty"
+  domain: [ ex:Building ]
+  range:  [ xsd:string ]
+  label: { en: "building name", ja: "建物名" }
+  constraints:
+    minCount: 1
+    pattern: "^.{1,200}$"

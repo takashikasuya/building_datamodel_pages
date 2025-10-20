@@ -1,0 +1,4 @@
+id,type,label_en,label_ja
+ex:HQ,ex:Building,Headquarters,本社
+ex:F1,ex:Floor,First Floor,1階
+ex:R101,ex:Room,Room 101,101号室

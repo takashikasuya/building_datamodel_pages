@@ -1,0 +1,6 @@
+equivalentClass:
+  - source: ex:Building
+    target: rec:Building
+equivalentProperty:
+  - source: ex:buildingName
+    target: rec:name
