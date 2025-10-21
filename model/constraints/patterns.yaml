@@ -1,4 +1,484 @@
-idPatterns:
-  Building: "^B-[0-9]{3}$"
-  Floor: "^F-[0-9]{1,2}$"
-  Room: "^R-[0-9]{3}$"
+# GUTP Equipment Device Types
+deviceTypes:
+  - "Multi-Sensor"
+  - "IlluminanceSensor"
+  - "BehaviorSensor"
+  - "LightingSystem"
+  - "GHP_IndoorUnit"
+  - "EHP"
+  - "Sensor"
+  - "VAV"
+  - "AirHandlingUnit"
+  - "Chiller"
+  - "Boiler"
+  - "HeatPump"
+
+# GUTP Point Types
+pointTypes:
+  - "CO2"
+  - "Temperature"
+  - "Humidity"
+  - "Illuminance"
+  - "PeopleCount"
+  - "Electricity"
+  - "Pressure"
+  - "AirFlow"
+  - "WaterFlow"
+  - "Power"
+  - "Energy"
+
+# Point Specifications
+pointSpecifications:
+  - "Alarm"
+  - "Command"
+  - "Setpoint"
+  - "Measurement"
+  - "Metering"
+  - "Status"
+
+# Units
+units:
+  - "°C"
+  - "%"
+  - "ppm"
+  - "lx"
+  - "person"
+  - "kW"
+  - "V"
+  - "A"
+  - "Hz"
+  - "Pa"
+  - "m³/h"
+  - "L/min"
+  - "kWh"
+  - "MJ"
+
+# BACnet Object Types
+bacnetObjectTypes:
+  - "Analog-Input"
+  - "Analog-Output"
+  - "Binary-Input"
+  - "Binary-Output"
+  - "Multi-State-Input"
+  - "Multi-State-Output"
+
+# REC Substance Types (from REC Spatial Metadata Catalog)
+recSubstanceTypes:
+  - "ACElec"
+  - "Air"
+  - "BlowdownWater"
+  - "ChilledWater"
+  - "ColdDomesticWater"
+  - "Condensate"
+  - "CondenserWater"
+  - "DCElec"
+  - "Diesel"
+  - "DriveElec"
+  - "Ethernet"
+  - "ExhaustAir"
+  - "Freight"
+  - "FuelOil"
+  - "Gasoline"
+  - "GreaseExhaustAir"
+  - "HotDomesticWater"
+  - "HotWater"
+  - "IrrigationWater"
+  - "Light"
+  - "MakeupWater"
+  - "NaturalGas"
+  - "NonPotableDomesticWater"
+  - "OutsideAir"
+  - "People"
+  - "Propane"
+  - "RecircHotDomesticWater"
+  - "Refrig"
+  - "ReturnAir"
+  - "SprinklerWater"
+  - "Steam"
+  - "StormDrainage"
+  - "SupplyAir"
+  - "TransferAir"
+  - "WasteVentDrainage"
+  - "Water"
+
+# Property Constraints
+propertyConstraints:
+  rec:name:
+    minCount: 1
+    maxCount: 1
+    datatype: xsd:string
+  rec:identifiers:
+    minCount: 1
+    maxCount: 10
+  gutp:gateway_id:
+    minCount: 1
+    maxCount: 1
+    datatype: xsd:string
+  gutp:device_id:
+    minCount: 1
+    maxCount: 1
+    datatype: xsd:string
+  gutp:device_name:
+    minCount: 1
+    maxCount: 1
+    datatype: xsd:string
+  gutp:device_type:
+    minCount: 1
+    maxCount: 1
+    datatype: xsd:string
+    in: deviceTypes
+  gutp:site:
+    minCount: 1
+    maxCount: 1
+    datatype: xsd:string
+  gutp:building:
+    minCount: 1
+    maxCount: 1
+    datatype: xsd:string
+  gutp:floor:
+    minCount: 1
+    maxCount: 1
+    datatype: xsd:string
+  gutp:installation_area:
+    minCount: 1
+    maxCount: 1
+    datatype: xsd:string
+  gutp:point_id:
+    minCount: 1
+    maxCount: 1
+    datatype: xsd:string
+  gutp:point_type:
+    minCount: 1
+    maxCount: 1
+    datatype: xsd:string
+    in: pointTypes
+  gutp:point_specification:
+    minCount: 1
+    maxCount: 1
+    datatype: xsd:string
+    in: pointSpecifications
+  gutp:writable:
+    minCount: 1
+    maxCount: 1
+    datatype: xsd:boolean
+  gutp:local_id:
+    minCount: 1
+    maxCount: 1
+    datatype: xsd:string
+  gutp:interval:
+    minInclusive: 1
+    datatype: xsd:integer
+  gutp:unit:
+    in: units
+    datatype: xsd:string
+  gutp:object_type_bacnet:
+    in: bacnetObjectTypes
+    datatype: xsd:string
+  rec:IPAddress:
+    pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$"
+    datatype: xsd:string
+  rec:MACAddress:
+    pattern: "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$"
+    datatype: xsd:string
+  # UDMI Extended Properties Constraints
+  rec:documentation:
+    datatype: xsd:string
+    maxCount: 1
+  rec:customProperties:
+    datatype: xsd:string
+  rec:customTags:
+    datatype: xsd:string
+  rec:manufacturedBy:
+    datatype: xsd:string
+    maxCount: 1
+  rec:turnoverDate:
+    datatype: xsd:date
+    maxCount: 1
+  rec:maintenanceInterval:
+    datatype: xsd:duration
+    maxCount: 1
+  rec:room:
+    datatype: xsd:string
+    maxCount: 1
+  rec:section:
+    datatype: xsd:string
+    maxCount: 1
+  rec:geometry:
+    datatype: xsd:string
+    maxCount: 1
+  rec:gatewayAddress:
+    datatype: xsd:string
+    maxCount: 1
+  rec:localnetInfo:
+    datatype: xsd:string
+    maxCount: 1
+  rec:cloudAuthType:
+    datatype: xsd:string
+    maxCount: 1
+    in: ["jwt", "es256", "rs256", "none"]
+  rec:deviceKey:
+    datatype: xsd:string
+    maxCount: 1
+  rec:resourceType:
+    datatype: xsd:string
+    maxCount: 1
+  rec:minLogLevel:
+    datatype: xsd:string
+    maxCount: 1
+    in: ["DEBUG", "INFO", "NOTICE", "WARNING", "ERROR", "CRITICAL"]
+  rec:metricsRate:
+    datatype: xsd:integer
+    maxCount: 1
+    minInclusive: 0
+  rec:cloudUpdatedTime:
+    datatype: xsd:dateTime
+    maxCount: 1
+  rec:lastStateTime:
+    datatype: xsd:dateTime
+    maxCount: 1
+  rec:lastConfigTime:
+    datatype: xsd:dateTime
+    maxCount: 1
+  rec:lastErrorTime:
+    datatype: xsd:dateTime
+    maxCount: 1
+
+# Relationship Constraints
+relationshipConstraints:
+  rec:hasPart:
+    domain: gutp:Space
+    range: [gutp:Space, rec:Asset]
+  rec:isPartOf:
+    domain: [gutp:Space, rec:Asset]
+    range: gutp:Space
+    maxCount: 1
+  rec:locatedIn:
+    domain: [rec:Asset, gutp:GUTPPoint]
+    range: gutp:Space
+    minCount: 1
+    maxCount: 1
+  rec:geometry:
+    domain: gutp:Space
+    range: rec:Geometry
+    maxCount: 1
+  rec:georeference:
+    domain: gutp:Space
+    range: rec:Georeference
+    maxCount: 1
+  rec:isLocationOf:
+    domain: gutp:Space
+    range: owl:Thing
+  # Architecture-specific relationships
+  rec:adjacentElement:
+    domain: rec:Architecture
+    range: rec:BuildingElement
+  rec:containsElement:
+    domain: rec:Architecture
+    range: rec:BuildingElement
+  rec:intersectingElement:
+    domain: rec:Architecture
+    range: rec:BuildingElement
+  rec:architectedBy:
+    domain: rec:Architecture
+    range: rec:Agent
+    maxCount: 1
+  rec:constructedBy:
+    domain: rec:Architecture
+    range: rec:Agent
+    maxCount: 1
+  rec:operatedBy:
+    domain: rec:Architecture
+    range: rec:Agent
+  rec:ownedBy:
+    domain: rec:Architecture
+    range: rec:Agent
+  rec:documentation:
+    domain: rec:Architecture
+    range: rec:Document
+  rec:area:
+    domain: rec:Architecture
+    range: rec:ArchitectureArea
+    maxCount: 1
+  rec:capacity:
+    domain: rec:Architecture
+    range: rec:ArchitectureCapacity
+    maxCount: 1
+  rec:isFedBySubstance:
+    domain: rec:Architecture
+    range: rec:Substance
+  # Equipment relationships
+  rec:hasPoint:
+    domain: [gutp:GUTPEquipment, rec:Architecture]
+    range: [gutp:GUTPPoint, rec:Point]
+    minCount: 1
+  rec:isPointOf:
+    domain: gutp:GUTPPoint
+    range: gutp:GUTPEquipment
+    minCount: 1
+    maxCount: 1
+  rec:address:
+    domain: rec:Building
+    range: rec:PostalAddress
+  # UDMI Equipment Relationship Constraints
+  rec:feeds:
+    domain: gutp:GUTPEquipment
+    range: gutp:GUTPEquipment
+  rec:isFedBy:
+    domain: gutp:GUTPEquipment
+    range: gutp:GUTPEquipment
+  rec:servicedBy:
+    domain: gutp:GUTPEquipment
+    range: gutp:GUTPEquipment
+  rec:mountedOn:
+    domain: gutp:GUTPEquipment
+    range: gutp:GUTPEquipment
+  rec:parentDevice:
+    domain: gutp:GUTPEquipment
+    range: gutp:GUTPEquipment
+    maxCount: 1
+
+# Space Type Constraints (Extended REC Spatial)
+spaceConstraints:
+  # GUTP Space Base Constraints
+  gutp:Space:
+    name:
+      datatype: xsd:string
+      minCount: 1
+      maxCount: 1
+    identifiers:
+      datatype: xsd:string
+      minCount: 1
+    customProperties:
+      datatype: xsd:string
+    customTags:
+      datatype: xsd:boolean
+    geometry:
+      class: rec:Geometry
+      maxCount: 1
+    georeference:
+      class: rec:Georeference
+      maxCount: 1
+    hasPart:
+      class: gutp:Space
+    isPartOf:
+      class: gutp:Space
+      maxCount: 1
+    isLocationOf:
+      class: owl:Thing
+  
+  # Architecture Constraints
+  rec:Architecture:
+    area:
+      class: rec:ArchitectureArea
+      maxCount: 1
+    capacity:
+      class: rec:ArchitectureCapacity
+      maxCount: 1
+    address:
+      class: rec:PostalAddress
+      maxCount: 1
+    adjacentElement:
+      class: rec:BuildingElement
+    containsElement:
+      class: rec:BuildingElement
+    intersectingElement:
+      class: rec:BuildingElement
+    architectedBy:
+      class: rec:Agent
+      maxCount: 1
+    constructedBy:
+      class: rec:Agent
+      maxCount: 1
+    operatedBy:
+      class: rec:Agent
+    ownedBy:
+      class: rec:Agent
+    documentation:
+      class: rec:Document
+    hasPoint:
+      class: rec:Point
+    isFedBySubstance:
+      class: rec:Substance
+  
+  # Specific Space Type Constraints
+  rec:Site:
+    hasPart:
+      class: rec:Building
+      minCount: 1
+  rec:Building:
+    hasPart:
+      class: rec:Level
+      minCount: 1
+    address:
+      class: rec:PostalAddress
+      maxCount: 1
+  rec:SubBuilding:
+    isPartOf:
+      class: rec:Building
+      minCount: 1
+      maxCount: 1
+  rec:Level:
+    isPartOf:
+      class: [rec:Building, rec:SubBuilding]
+      minCount: 1
+      maxCount: 1
+    levelNumber:
+      datatype: xsd:integer
+      maxCount: 1
+  rec:Room:
+    isPartOf:
+      class: rec:Level
+      minCount: 1
+      maxCount: 1
+  rec:Zone:
+    isPartOf:
+      class: [rec:Building, rec:Level, rec:Site]
+      minCount: 1
+      maxCount: 1
+  rec:OutdoorSpace:
+    isPartOf:
+      class: rec:Site
+      minCount: 1
+      maxCount: 1
+  rec:Region:
+    hasPart:
+      class: rec:Site
+
+# Equipment Constraints
+equipmentConstraints:
+  gutp:GUTPEquipment:
+    locatedIn:
+      class: rec:Space
+      minCount: 1
+      maxCount: 1
+    isPartOf:
+      class: rec:Space
+      minCount: 1
+      maxCount: 1
+    hasPoint:
+      class: gutp:GUTPPoint
+      minCount: 1
+
+# Value Range Constraints
+valueRangeConstraints:
+  humidity:
+    conditions:
+      point_type: "Humidity"
+    constraints:
+      max_pres_value:
+        maxInclusive: 100
+        minInclusive: 0
+  temperature:
+    conditions:
+      point_type: "Temperature"
+    constraints:
+      max_pres_value:
+        maxInclusive: 100
+        minInclusive: -50
+  co2:
+    conditions:
+      point_type: "CO2"
+    constraints:
+      max_pres_value:
+        maxInclusive: 10000
+        minInclusive: 0

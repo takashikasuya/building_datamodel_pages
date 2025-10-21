@@ -1,22 +1,727 @@
-- id: ex:hasFloor
+# REC Spatial Relationships
+- id: rec:hasPart
   type: "ObjectProperty"
-  domain: [ ex:Building ]
-  range:  [ ex:Floor ]
-  label: { en: "has floor", ja: "フロアを持つ" }
-  constraints:
-    minCount: 1
+  domain: [ rec:Space ]
+  range: [ rec:Space, rec:Asset ]
+  label: { en: "has part", ja: "部分を持つ" }
+  comment: { en: "Indicates that a space contains another space or asset as a part.", ja: "空間が他の空間や資産を部分として含むことを示す。" }
+  inverseOf: rec:isPartOf
+  tags: ["rec", "spatial"]
 
-- id: ex:hasRoom
+- id: rec:isPartOf
   type: "ObjectProperty"
-  domain: [ ex:Floor ]
-  range:  [ ex:Room ]
-  label: { en: "has room", ja: "部屋を持つ" }
+  domain: [ rec:Space, rec:Asset ]
+  range: [ rec:Space ]
+  label: { en: "is part of", ja: "の部分である" }
+  comment: { en: "Indicates that a space or asset is part of another space.", ja: "空間や資産が他の空間の部分であることを示す。" }
+  inverseOf: rec:hasPart
+  tags: ["rec", "spatial"]
 
-- id: ex:buildingName
+- id: rec:locatedIn
+  type: "ObjectProperty"
+  domain: [ rec:Asset, gutp:GUTPPoint ]
+  range: [ rec:Space ]
+  label: { en: "located in", ja: "に位置する" }
+  comment: { en: "Indicates the spatial location of an asset or point.", ja: "資産やポイントの空間的位置を示す。" }
+  tags: ["rec", "location"]
+
+- id: rec:address
+  type: "ObjectProperty"
+  domain: [ rec:Building ]
+  range: [ rec:PostalAddress ]
+  label: { en: "address", ja: "住所" }
+  comment: { en: "Physical address of the building.", ja: "建物の物理的住所。" }
+  tags: ["rec", "address"]
+
+# Equipment-Point Relationships
+- id: rec:hasPoint
+  type: "ObjectProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ gutp:GUTPPoint ]
+  label: { en: "has point", ja: "ポイントを持つ" }
+  comment: { en: "Indicates that equipment has associated measurement or control points.", ja: "機器が関連する測定点や制御点を持つことを示す。" }
+  inverseOf: rec:isPointOf
+  tags: ["gutp", "equipment"]
+
+- id: rec:isPointOf
+  type: "ObjectProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ gutp:GUTPEquipment ]
+  label: { en: "is point of", ja: "のポイントである" }
+  comment: { en: "Indicates that point belongs to equipment.", ja: "ポイントが機器に属することを示す。" }
+  inverseOf: rec:hasPoint
+  tags: ["gutp", "equipment"]
+
+# Additional Relationship Properties (UDMI Gateway Relations)
+- id: rec:feeds
+  type: "ObjectProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ gutp:GUTPEquipment ]
+  label: { en: "feeds", ja: "供給する" }
+  comment: { en: "Indicates equipment feeding relationship (UDMI: gateway.proxy_ids).", ja: "機器間の供給関係を示す（UDMI: gateway.proxy_ids）。" }
+  inverseOf: rec:isFedBy
+  tags: ["rec", "udmi", "relationship"]
+
+- id: rec:isFedBy
+  type: "ObjectProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ gutp:GUTPEquipment ]
+  label: { en: "is fed by", ja: "から供給される" }
+  comment: { en: "Indicates equipment being fed by another equipment.", ja: "他の機器から供給されることを示す。" }
+  inverseOf: rec:feeds
+  tags: ["rec", "udmi", "relationship"]
+
+- id: rec:servicedBy
+  type: "ObjectProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ gutp:GUTPEquipment ]
+  label: { en: "serviced by", ja: "によってサービスされる" }
+  comment: { en: "Indicates equipment servicing relationship.", ja: "機器間のサービス関係を示す。" }
+  tags: ["rec", "relationship"]
+
+- id: rec:mountedOn
+  type: "ObjectProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ gutp:GUTPEquipment ]
+  label: { en: "mounted on", ja: "に取り付けられる" }
+  comment: { en: "Indicates equipment mounting relationship.", ja: "機器間の取り付け関係を示す。" }
+  tags: ["rec", "relationship"]
+
+- id: rec:parentDevice
+  type: "ObjectProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ gutp:GUTPEquipment ]
+  label: { en: "parent device", ja: "親デバイス" }
+  comment: { en: "Indicates parent device relationship (UDMI: gateway.parent_id).", ja: "親デバイス関係を示す（UDMI: gateway.parent_id）。" }
+  tags: ["rec", "udmi", "relationship"]
+
+# Basic Properties
+- id: rec:name
   type: "DatatypeProperty"
-  domain: [ ex:Building ]
-  range:  [ xsd:string ]
-  label: { en: "building name", ja: "建物名" }
-  constraints:
-    minCount: 1
-    pattern: "^.{1,200}$"
+  domain: [ owl:Thing ]
+  range: [ xsd:string ]
+  label: { en: "name", ja: "名前" }
+  comment: { en: "Human-readable name of an entity.", ja: "エンティティの人間が読める名前。" }
+  tags: ["rec", "basic"]
+
+- id: rec:identifiers
+  type: "DatatypeProperty"
+  domain: [ gutp:Space ]
+  range: [ xsd:string ]
+  label: { en: "identifiers", ja: "識別子" }
+  comment: { en: "Identifier key→string map for spaces.", ja: "空間の識別子キー→文字列マップ。" }
+  tags: ["rec", "basic", "spatial"]
+
+- id: rec:customProperties
+  type: "DatatypeProperty"
+  domain: [ gutp:Space ]
+  range: [ xsd:string ]
+  label: { en: "custom properties", ja: "カスタムプロパティ" }
+  comment: { en: "Custom key→map(string→string) properties.", ja: "カスタムキー→マップ（文字列→文字列）プロパティ。" }
+  tags: ["rec", "custom", "spatial"]
+
+- id: rec:customTags
+  type: "DatatypeProperty"
+  domain: [ gutp:Space ]
+  range: [ xsd:boolean ]
+  label: { en: "custom tags", ja: "カスタムタグ" }
+  comment: { en: "Custom tags as key→boolean.", ja: "キー→真偽値としてのカスタムタグ。" }
+  tags: ["rec", "custom", "spatial"]
+
+- id: rec:levelNumber
+  type: "DatatypeProperty"
+  domain: [ rec:Level ]
+  range: [ xsd:integer ]
+  label: { en: "level number", ja: "階数" }
+  comment: { en: "Ordinal number of the level within the containing space.", ja: "包含空間内での階層の序数。" }
+  tags: ["rec", "spatial"]
+
+# REC Spatial Relationship Properties (from REC Spatial Metadata Catalog)
+- id: rec:adjacentElement
+  type: "ObjectProperty"
+  domain: [ rec:Architecture ]
+  range: [ rec:BuildingElement ]
+  label: { en: "adjacent element", ja: "隣接要素" }
+  comment: { en: "Adjacent building element.", ja: "隣接する建築要素。" }
+  tags: ["rec", "spatial", "architecture"]
+
+- id: rec:containsElement
+  type: "ObjectProperty"
+  domain: [ rec:Architecture ]
+  range: [ rec:BuildingElement ]
+  label: { en: "contains element", ja: "要素を含む" }
+  comment: { en: "Architecture contains a BuildingElement.", ja: "建築が建築要素を含む。" }
+  tags: ["rec", "spatial", "architecture"]
+
+- id: rec:intersectingElement
+  type: "ObjectProperty"
+  domain: [ rec:Architecture ]
+  range: [ rec:BuildingElement ]
+  label: { en: "intersecting element", ja: "交差要素" }
+  comment: { en: "Intersecting building element.", ja: "交差する建築要素。" }
+  tags: ["rec", "spatial", "architecture"]
+
+- id: rec:architectedBy
+  type: "ObjectProperty"
+  domain: [ rec:Architecture ]
+  range: [ rec:Agent ]
+  label: { en: "architected by", ja: "によって設計された" }
+  comment: { en: "Architect (agent) responsible.", ja: "責任のある設計者（エージェント）。" }
+  tags: ["rec", "architecture", "agent"]
+
+- id: rec:constructedBy
+  type: "ObjectProperty"
+  domain: [ rec:Architecture ]
+  range: [ rec:Agent ]
+  label: { en: "constructed by", ja: "によって建設された" }
+  comment: { en: "Constructor (agent).", ja: "建設者（エージェント）。" }
+  tags: ["rec", "architecture", "agent"]
+
+- id: rec:operatedBy
+  type: "ObjectProperty"
+  domain: [ rec:Architecture ]
+  range: [ rec:Agent ]
+  label: { en: "operated by", ja: "によって運営される" }
+  comment: { en: "Operator (agent).", ja: "運営者（エージェント）。" }
+  tags: ["rec", "architecture", "agent"]
+
+- id: rec:ownedBy
+  type: "ObjectProperty"
+  domain: [ rec:Architecture ]
+  range: [ rec:Agent ]
+  label: { en: "owned by", ja: "によって所有される" }
+  comment: { en: "Owner (agent).", ja: "所有者（エージェント）。" }
+  tags: ["rec", "architecture", "agent"]
+
+- id: rec:documentation
+  type: "ObjectProperty"
+  domain: [ rec:Architecture ]
+  range: [ rec:Document ]
+  label: { en: "documentation", ja: "文書" }
+  comment: { en: "Documentation linked to this architecture.", ja: "この建築にリンクされた文書。" }
+  tags: ["rec", "architecture", "documentation"]
+
+- id: rec:hasPoint
+  type: "ObjectProperty"
+  domain: [ rec:Architecture ]
+  range: [ rec:Point ]
+  label: { en: "has point", ja: "ポイントを持つ" }
+  comment: { en: "Points associated with the architecture.", ja: "建築に関連するポイント。" }
+  tags: ["rec", "architecture", "point"]
+
+- id: rec:geometry
+  type: "ObjectProperty"
+  domain: [ gutp:Space ]
+  range: [ rec:Geometry ]
+  label: { en: "geometry", ja: "幾何" }
+  comment: { en: "Polygon representing the spatial extent.", ja: "空間範囲を表すポリゴン。" }
+  tags: ["rec", "spatial", "geometry"]
+
+- id: rec:georeference
+  type: "ObjectProperty"
+  domain: [ gutp:Space ]
+  range: [ rec:Georeference ]
+  label: { en: "georeference", ja: "地理参照" }
+  comment: { en: "Relates local coordinate system to geographic coordinates.", ja: "ローカル座標系を地理座標に関連付ける。" }
+  tags: ["rec", "spatial", "georeference"]
+
+- id: rec:isLocationOf
+  type: "ObjectProperty"
+  domain: [ gutp:Space ]
+  range: [ owl:Thing ]
+  label: { en: "is location of", ja: "の場所である" }
+  comment: { en: "Links this Space as the location of other entities.", ja: "この空間を他のエンティティの場所としてリンクする。" }
+  tags: ["rec", "spatial", "location"]
+
+# Component Properties for Architecture
+- id: rec:area
+  type: "ObjectProperty"
+  domain: [ rec:Architecture ]
+  range: [ rec:ArchitectureArea ]
+  label: { en: "area", ja: "面積" }
+  comment: { en: "Area component for designed/architected spaces.", ja: "設計・建築された空間の面積コンポーネント。" }
+  tags: ["rec", "architecture", "component"]
+
+- id: rec:capacity
+  type: "ObjectProperty"
+  domain: [ rec:Architecture ]
+  range: [ rec:ArchitectureCapacity ]
+  label: { en: "capacity", ja: "容量" }
+  comment: { en: "Capacity component for designed/architected spaces.", ja: "設計・建築された空間の容量コンポーネント。" }
+  tags: ["rec", "architecture", "component"]
+
+# Extended isFedBy for Architecture with Substance enum
+- id: rec:isFedBySubstance
+  type: "ObjectProperty"
+  domain: [ rec:Architecture ]
+  range: [ rec:Substance ]
+  label: { en: "is fed by substance", ja: "物質によって供給される" }
+  comment: { en: "Fed by a substance (utility/service).", ja: "物質（ユーティリティ/サービス）によって供給される。" }
+  tags: ["rec", "architecture", "substance"]
+
+# GUTP Equipment Properties
+- id: gutp:gateway_id
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "gateway ID", ja: "ゲートウェイID" }
+  comment: { en: "Gateway identifier for the equipment.", ja: "機器のゲートウェイ識別子。" }
+  tags: ["gutp", "equipment"]
+
+- id: gutp:device_id
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "device ID", ja: "デバイスID" }
+  comment: { en: "Device identifier for the equipment.", ja: "機器のデバイス識別子。" }
+  tags: ["gutp", "equipment"]
+
+- id: gutp:device_name
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "device name", ja: "デバイス名" }
+  comment: { en: "Name of the device.", ja: "デバイスの名前。" }
+  tags: ["gutp", "equipment"]
+
+- id: gutp:device_type
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "device type", ja: "デバイス種別" }
+  comment: { en: "Type classification of the device.", ja: "デバイスのタイプ分類。" }
+  tags: ["gutp", "equipment"]
+
+- id: gutp:site
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "site", ja: "サイト" }
+  comment: { en: "Site name where the equipment is located.", ja: "機器が配置されているサイト名。" }
+  tags: ["gutp", "equipment"]
+
+- id: gutp:building
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "building", ja: "建物" }
+  comment: { en: "Building name where the equipment is located.", ja: "機器が配置されている建物名。" }
+  tags: ["gutp", "equipment"]
+
+- id: gutp:floor
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "floor", ja: "階" }
+  comment: { en: "Floor designation where the equipment is located.", ja: "機器が配置されている階の指定。" }
+  tags: ["gutp", "equipment"]
+
+- id: gutp:installation_area
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "installation area", ja: "設置エリア" }
+  comment: { en: "Area where the equipment is installed.", ja: "機器が設置されているエリア。" }
+  tags: ["gutp", "equipment"]
+
+- id: gutp:target_area
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "target area", ja: "対象エリア" }
+  comment: { en: "Target control area for the equipment.", ja: "機器の制御対象エリア。" }
+  tags: ["gutp", "equipment"]
+
+- id: gutp:panel
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "panel", ja: "制御盤" }
+  comment: { en: "Control panel information.", ja: "制御盤情報。" }
+  tags: ["gutp", "equipment"]
+
+- id: gutp:supplier
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "supplier", ja: "供給者" }
+  comment: { en: "Equipment supplier or manufacturer.", ja: "機器供給者または製造者。" }
+  tags: ["gutp", "equipment"]
+
+- id: gutp:owner
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "owner", ja: "所有者" }
+  comment: { en: "Equipment owner.", ja: "機器所有者。" }
+  tags: ["gutp", "equipment"]
+
+# UDMI System Properties (対応: system.* in UDMI)
+- id: rec:documentation
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "documentation", ja: "文書" }
+  comment: { en: "Equipment description and documentation (UDMI: system.description).", ja: "機器の説明と文書（UDMI: system.description）。" }
+  tags: ["rec", "udmi", "documentation"]
+
+- id: rec:customProperties
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "custom properties", ja: "カスタムプロパティ" }
+  comment: { en: "Custom key-value properties (UDMI: system.adjunct, software info, SKU/rev).", ja: "カスタムキー値プロパティ（UDMI: system.adjunct、ソフトウェア情報、SKU/rev）。" }
+  tags: ["rec", "udmi", "custom"]
+
+- id: rec:customTags
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "custom tags", ja: "カスタムタグ" }
+  comment: { en: "Custom tags (UDMI: system.tags).", ja: "カスタムタグ（UDMI: system.tags）。" }
+  tags: ["rec", "udmi", "custom"]
+
+# Hardware Information Properties (対応: system.hardware.* in UDMI)
+- id: rec:manufacturedBy
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "manufactured by", ja: "製造者" }
+  comment: { en: "Manufacturer name (UDMI: system.hardware.make).", ja: "製造者名（UDMI: system.hardware.make）。" }
+  tags: ["rec", "udmi", "hardware"]
+
+# Lifecycle Properties (設置・ライフサイクル情報)
+- id: rec:turnoverDate
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:date ]
+  label: { en: "turnover date", ja: "引渡日" }
+  comment: { en: "Date of equipment turnover (UDMI: last_config_time etc.).", ja: "機器引渡日（UDMI: last_config_time等）。" }
+  tags: ["rec", "udmi", "lifecycle"]
+
+- id: rec:maintenanceInterval
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:duration ]
+  label: { en: "maintenance interval", ja: "メンテ周期" }
+  comment: { en: "Maintenance interval for the equipment.", ja: "機器のメンテナンス周期。" }
+  tags: ["rec", "lifecycle"]
+
+# Location Properties (位置情報) - UDMI system.location.*
+- id: rec:room
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "room", ja: "部屋" }
+  comment: { en: "Room location (UDMI: system.location.room).", ja: "部屋の位置（UDMI: system.location.room）。" }
+  tags: ["rec", "udmi", "location"]
+
+- id: rec:section
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "section", ja: "セクション" }
+  comment: { en: "Section location (UDMI: system.location.section).", ja: "セクションの位置（UDMI: system.location.section）。" }
+  tags: ["rec", "udmi", "location"]
+
+- id: rec:geometry
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "geometry", ja: "座標" }
+  comment: { en: "Geometric coordinates (UDMI: system.location.position, coordinates).", ja: "幾何座標（UDMI: system.location.position、座標）。" }
+  tags: ["rec", "udmi", "location"]
+
+# Network Properties (ネットワーク情報)
+- id: rec:gatewayAddress
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "gateway address", ja: "ゲートウェイアドレス" }
+  comment: { en: "Gateway target address (UDMI: cloud.gateway.target.addr).", ja: "ゲートウェイ対象アドレス（UDMI: cloud.gateway.target.addr）。" }
+  tags: ["rec", "udmi", "network"]
+
+- id: rec:localnetInfo
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "local network info", ja: "ローカルネットワーク情報" }
+  comment: { en: "Local network information (UDMI: localnet).", ja: "ローカルネットワーク情報（UDMI: localnet）。" }
+  tags: ["rec", "udmi", "network"]
+
+# Cloud/Operation Properties (クラウド・運用情報)
+- id: rec:cloudAuthType
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "cloud auth type", ja: "クラウド認証タイプ" }
+  comment: { en: "Cloud authentication type (UDMI: cloud.auth_type).", ja: "クラウド認証タイプ（UDMI: cloud.auth_type）。" }
+  tags: ["rec", "udmi", "cloud"]
+
+- id: rec:deviceKey
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "device key", ja: "デバイスキー" }
+  comment: { en: "Device key for cloud connection (UDMI: cloud.device_key).", ja: "クラウド接続用デバイスキー（UDMI: cloud.device_key）。" }
+  tags: ["rec", "udmi", "cloud"]
+
+- id: rec:resourceType
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "resource type", ja: "リソース種別" }
+  comment: { en: "Cloud resource type (UDMI: cloud.resource_type).", ja: "クラウドリソース種別（UDMI: cloud.resource_type）。" }
+  tags: ["rec", "udmi", "cloud"]
+
+- id: rec:minLogLevel
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "minimum log level", ja: "最小ログレベル" }
+  comment: { en: "Minimum log level (UDMI: system.min_loglevel).", ja: "最小ログレベル（UDMI: system.min_loglevel）。" }
+  tags: ["rec", "udmi", "operation"]
+
+- id: rec:metricsRate
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:integer ]
+  label: { en: "metrics rate", ja: "メトリクス頻度" }
+  comment: { en: "Metrics collection rate in seconds (UDMI: system.metrics_rate_sec).", ja: "メトリクス収集頻度（秒）（UDMI: system.metrics_rate_sec）。" }
+  tags: ["rec", "udmi", "operation"]
+
+# Operational Timestamps (運用タイムスタンプ)
+- id: rec:cloudUpdatedTime
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:dateTime ]
+  label: { en: "cloud updated time", ja: "クラウド更新時刻" }
+  comment: { en: "Cloud last updated time (UDMI: cloud.updated_time).", ja: "クラウド最終更新時刻（UDMI: cloud.updated_time）。" }
+  tags: ["rec", "udmi", "timestamp"]
+
+- id: rec:lastStateTime
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:dateTime ]
+  label: { en: "last state time", ja: "最終状態時刻" }
+  comment: { en: "Last state update time (UDMI: last_state_time).", ja: "最終状態更新時刻（UDMI: last_state_time）。" }
+  tags: ["rec", "udmi", "timestamp"]
+
+- id: rec:lastConfigTime
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:dateTime ]
+  label: { en: "last config time", ja: "最終設定時刻" }
+  comment: { en: "Last configuration time (UDMI: last_config_time).", ja: "最終設定時刻（UDMI: last_config_time）。" }
+  tags: ["rec", "udmi", "timestamp"]
+
+- id: rec:lastErrorTime
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:dateTime ]
+  label: { en: "last error time", ja: "最終エラー時刻" }
+  comment: { en: "Last error occurrence time (UDMI: last_error_time).", ja: "最終エラー発生時刻（UDMI: last_error_time）。" }
+  tags: ["rec", "udmi", "timestamp"]
+
+# REC Asset Properties
+- id: rec:assetTag
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "asset tag", ja: "資産タグ" }
+  comment: { en: "Asset tag identifier.", ja: "資産タグ識別子。" }
+  tags: ["rec", "asset"]
+
+- id: rec:serialNumber
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "serial number", ja: "シリアル番号" }
+  comment: { en: "Device serial number.", ja: "デバイスのシリアル番号。" }
+  tags: ["rec", "asset"]
+
+- id: rec:modelNumber
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "model number", ja: "型番" }
+  comment: { en: "Manufacturer model number.", ja: "メーカー型番。" }
+  tags: ["rec", "asset"]
+
+- id: rec:initialCost
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:decimal ]
+  label: { en: "initial cost", ja: "初期コスト" }
+  comment: { en: "Initial procurement cost.", ja: "初期調達コスト。" }
+  tags: ["rec", "asset"]
+
+- id: rec:weight
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:decimal ]
+  label: { en: "weight", ja: "重量" }
+  comment: { en: "Asset weight.", ja: "資産重量。" }
+  tags: ["rec", "asset"]
+
+- id: rec:installationDate
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:date ]
+  label: { en: "installation date", ja: "設置日" }
+  comment: { en: "Date of installation.", ja: "設置日。" }
+  tags: ["rec", "asset"]
+
+- id: rec:commissioningDate
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:date ]
+  label: { en: "commissioning date", ja: "試運転開始日" }
+  comment: { en: "Date of commissioning.", ja: "試運転開始日。" }
+  tags: ["rec", "asset"]
+
+- id: rec:IPAddress
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "IP address", ja: "IPアドレス" }
+  comment: { en: "IPv4/IPv6 address.", ja: "IPv4/IPv6アドレス。" }
+  tags: ["rec", "network"]
+
+- id: rec:MACAddress
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPEquipment ]
+  range: [ xsd:string ]
+  label: { en: "MAC address", ja: "MACアドレス" }
+  comment: { en: "MAC address.", ja: "MACアドレス。" }
+  tags: ["rec", "network"]
+
+# GUTP Point Properties
+- id: gutp:point_id
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:string ]
+  label: { en: "point ID", ja: "ポイントID" }
+  comment: { en: "Point identifier.", ja: "ポイント識別子。" }
+  tags: ["gutp", "point"]
+
+- id: gutp:point_type
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:string ]
+  label: { en: "point type", ja: "ポイント種別" }
+  comment: { en: "Type classification of the point.", ja: "ポイントのタイプ分類。" }
+  tags: ["gutp", "point"]
+
+- id: gutp:point_specification
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:string ]
+  label: { en: "point specification", ja: "ポイント区分" }
+  comment: { en: "Specification category of the point.", ja: "ポイントの区分カテゴリ。" }
+  tags: ["gutp", "point"]
+
+- id: gutp:writable
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:boolean ]
+  label: { en: "writable", ja: "書き込み可能" }
+  comment: { en: "Indicates if the point value can be written to.", ja: "ポイント値への書き込みが可能かどうかを示す。" }
+  tags: ["gutp", "point"]
+
+- id: gutp:local_id
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:string ]
+  label: { en: "local ID", ja: "ローカルID" }
+  comment: { en: "Local identifier for the point.", ja: "ポイントのローカル識別子。" }
+  tags: ["gutp", "point"]
+
+- id: gutp:interval
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:integer ]
+  label: { en: "interval", ja: "間隔" }
+  comment: { en: "Polling interval in seconds.", ja: "ポーリング間隔（秒）。" }
+  tags: ["gutp", "point"]
+
+- id: gutp:unit
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:string ]
+  label: { en: "unit", ja: "単位" }
+  comment: { en: "Measurement unit.", ja: "測定単位。" }
+  tags: ["gutp", "point"]
+
+- id: gutp:max_pres_value
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:decimal ]
+  label: { en: "maximum present value", ja: "最大現在値" }
+  comment: { en: "Maximum present value.", ja: "最大現在値。" }
+  tags: ["gutp", "point"]
+
+- id: gutp:min_pres_value
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:decimal ]
+  label: { en: "minimum present value", ja: "最小現在値" }
+  comment: { en: "Minimum present value.", ja: "最小現在値。" }
+  tags: ["gutp", "point"]
+
+- id: gutp:scale
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:decimal ]
+  label: { en: "scale", ja: "スケール" }
+  comment: { en: "Scale factor for present value.", ja: "現在値のスケール係数。" }
+  tags: ["gutp", "point"]
+
+- id: gutp:labels
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:string ]
+  label: { en: "labels", ja: "ラベル" }
+  comment: { en: "Labels for multi-state values.", ja: "マルチステート値のラベル。" }
+  tags: ["gutp", "point"]
+
+- id: gutp:tags
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:string ]
+  label: { en: "tags", ja: "タグ" }
+  comment: { en: "Search tags.", ja: "検索タグ。" }
+  tags: ["gutp", "point"]
+
+- id: gutp:description
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:string ]
+  label: { en: "description", ja: "説明" }
+  comment: { en: "Point description.", ja: "ポイントの説明。" }
+  tags: ["gutp", "point"]
+
+# BACnet Properties
+- id: gutp:device_id_bacnet
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:string ]
+  label: { en: "BACnet device ID", ja: "BACnetデバイスID" }
+  comment: { en: "BACnet device identifier.", ja: "BACnetデバイス識別子。" }
+  tags: ["gutp", "bacnet"]
+
+- id: gutp:object_id_bacnet
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:string ]
+  label: { en: "BACnet object ID", ja: "BACnetオブジェクトID" }
+  comment: { en: "BACnet object identifier.", ja: "BACnetオブジェクト識別子。" }
+  tags: ["gutp", "bacnet"]
+
+- id: gutp:object_type_bacnet
+  type: "DatatypeProperty"
+  domain: [ gutp:GUTPPoint ]
+  range: [ xsd:string ]
+  label: { en: "BACnet object type", ja: "BACnetオブジェクト種別" }
+  comment: { en: "BACnet object type.", ja: "BACnetオブジェクト種別。" }
+  tags: ["gutp", "bacnet"]

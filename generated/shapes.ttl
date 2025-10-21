@@ -1,25 +1,394 @@
-@prefix ex: <https://example.org/ontology/> .
+@prefix gutp: <https://www.gutp.jp/bim-wg#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rec: <https://w3id.org/rec#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ex:BuildingShape a sh:NodeShape ;
-    sh:property <https://example.org/ontology/BuildingShape#buildingName>,
-        <https://example.org/ontology/BuildingShape#hasFloor> ;
-    sh:targetClass ex:Building .
+owl:ThingShape a sh:NodeShape ;
+    sh:property <http://www.w3.org/2002/07/owl#ThingShape#name> ;
+    sh:targetClass owl:Thing .
 
-ex:FloorShape a sh:NodeShape ;
-    sh:property <https://example.org/ontology/FloorShape#hasRoom> ;
-    sh:targetClass ex:Floor .
+rec:ArchitectureShape a sh:NodeShape ;
+    sh:property <https://w3id.org/rec#ArchitectureShape#adjacentElement>,
+        <https://w3id.org/rec#ArchitectureShape#architectedBy>,
+        <https://w3id.org/rec#ArchitectureShape#area>,
+        <https://w3id.org/rec#ArchitectureShape#capacity>,
+        <https://w3id.org/rec#ArchitectureShape#constructedBy>,
+        <https://w3id.org/rec#ArchitectureShape#containsElement>,
+        <https://w3id.org/rec#ArchitectureShape#documentation>,
+        <https://w3id.org/rec#ArchitectureShape#hasPoint>,
+        <https://w3id.org/rec#ArchitectureShape#intersectingElement>,
+        <https://w3id.org/rec#ArchitectureShape#isFedBySubstance>,
+        <https://w3id.org/rec#ArchitectureShape#operatedBy>,
+        <https://w3id.org/rec#ArchitectureShape#ownedBy> ;
+    sh:targetClass rec:Architecture .
 
-<https://example.org/ontology/BuildingShape#buildingName> sh:datatype xsd:string ;
-    sh:minCount 1 ;
-    sh:path ex:buildingName ;
-    sh:pattern "^.{1,200}$" .
+rec:AssetShape a sh:NodeShape ;
+    sh:property <https://w3id.org/rec#AssetShape#isPartOf>,
+        <https://w3id.org/rec#AssetShape#locatedIn> ;
+    sh:targetClass rec:Asset .
 
-<https://example.org/ontology/BuildingShape#hasFloor> sh:class ex:Floor ;
-    sh:minCount 1 ;
-    sh:path ex:hasFloor .
+rec:BuildingShape a sh:NodeShape ;
+    sh:property <https://w3id.org/rec#BuildingShape#address> ;
+    sh:targetClass rec:Building .
 
-<https://example.org/ontology/FloorShape#hasRoom> sh:class ex:Room ;
-    sh:path ex:hasRoom .
+rec:LevelShape a sh:NodeShape ;
+    sh:property <https://w3id.org/rec#LevelShape#levelNumber> ;
+    sh:targetClass rec:Level .
+
+rec:SpaceShape a sh:NodeShape ;
+    sh:property <https://w3id.org/rec#SpaceShape#hasPart>,
+        <https://w3id.org/rec#SpaceShape#isPartOf> ;
+    sh:targetClass rec:Space .
+
+gutp:GUTPEquipmentShape a sh:NodeShape ;
+    sh:property <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#IPAddress>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#MACAddress>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#assetTag>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#building>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#cloudAuthType>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#cloudUpdatedTime>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#commissioningDate>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#customProperties>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#customTags>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#deviceKey>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#device_id>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#device_name>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#device_type>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#documentation>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#feeds>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#floor>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#gatewayAddress>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#gateway_id>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#geometry>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#hasPoint>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#initialCost>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#installationDate>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#installation_area>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#isFedBy>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#lastConfigTime>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#lastErrorTime>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#lastStateTime>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#localnetInfo>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#maintenanceInterval>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#manufacturedBy>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#metricsRate>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#minLogLevel>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#modelNumber>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#mountedOn>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#owner>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#panel>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#parentDevice>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#resourceType>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#room>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#section>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#serialNumber>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#servicedBy>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#site>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#supplier>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#target_area>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#turnoverDate>,
+        <https://www.gutp.jp/bim-wg#GUTPEquipmentShape#weight> ;
+    sh:targetClass gutp:GUTPEquipment .
+
+gutp:GUTPPointShape a sh:NodeShape ;
+    sh:property <https://www.gutp.jp/bim-wg#GUTPPointShape#description>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#device_id_bacnet>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#interval>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#isPointOf>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#labels>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#local_id>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#locatedIn>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#max_pres_value>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#min_pres_value>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#object_id_bacnet>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#object_type_bacnet>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#point_id>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#point_specification>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#point_type>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#scale>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#tags>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#unit>,
+        <https://www.gutp.jp/bim-wg#GUTPPointShape#writable> ;
+    sh:targetClass gutp:GUTPPoint .
+
+gutp:SpaceShape a sh:NodeShape ;
+    sh:property <https://www.gutp.jp/bim-wg#SpaceShape#customProperties>,
+        <https://www.gutp.jp/bim-wg#SpaceShape#customTags>,
+        <https://www.gutp.jp/bim-wg#SpaceShape#geometry>,
+        <https://www.gutp.jp/bim-wg#SpaceShape#georeference>,
+        <https://www.gutp.jp/bim-wg#SpaceShape#identifiers>,
+        <https://www.gutp.jp/bim-wg#SpaceShape#isLocationOf> ;
+    sh:targetClass gutp:Space .
+
+<http://www.w3.org/2002/07/owl#ThingShape#name> sh:datatype xsd:string ;
+    sh:path rec:name .
+
+<https://w3id.org/rec#ArchitectureShape#adjacentElement> sh:class rec:BuildingElement ;
+    sh:path rec:adjacentElement .
+
+<https://w3id.org/rec#ArchitectureShape#architectedBy> sh:class rec:Agent ;
+    sh:path rec:architectedBy .
+
+<https://w3id.org/rec#ArchitectureShape#area> sh:class rec:ArchitectureArea ;
+    sh:path rec:area .
+
+<https://w3id.org/rec#ArchitectureShape#capacity> sh:class rec:ArchitectureCapacity ;
+    sh:path rec:capacity .
+
+<https://w3id.org/rec#ArchitectureShape#constructedBy> sh:class rec:Agent ;
+    sh:path rec:constructedBy .
+
+<https://w3id.org/rec#ArchitectureShape#containsElement> sh:class rec:BuildingElement ;
+    sh:path rec:containsElement .
+
+<https://w3id.org/rec#ArchitectureShape#documentation> sh:class rec:Document ;
+    sh:path rec:documentation .
+
+<https://w3id.org/rec#ArchitectureShape#hasPoint> sh:class rec:Point ;
+    sh:path rec:hasPoint .
+
+<https://w3id.org/rec#ArchitectureShape#intersectingElement> sh:class rec:BuildingElement ;
+    sh:path rec:intersectingElement .
+
+<https://w3id.org/rec#ArchitectureShape#isFedBySubstance> sh:class rec:Substance ;
+    sh:path rec:isFedBySubstance .
+
+<https://w3id.org/rec#ArchitectureShape#operatedBy> sh:class rec:Agent ;
+    sh:path rec:operatedBy .
+
+<https://w3id.org/rec#ArchitectureShape#ownedBy> sh:class rec:Agent ;
+    sh:path rec:ownedBy .
+
+<https://w3id.org/rec#AssetShape#isPartOf> sh:class rec:Space ;
+    sh:path rec:isPartOf .
+
+<https://w3id.org/rec#AssetShape#locatedIn> sh:class rec:Space ;
+    sh:path rec:locatedIn .
+
+<https://w3id.org/rec#BuildingShape#address> sh:class rec:PostalAddress ;
+    sh:path rec:address .
+
+<https://w3id.org/rec#LevelShape#levelNumber> sh:datatype xsd:integer ;
+    sh:path rec:levelNumber .
+
+<https://w3id.org/rec#SpaceShape#hasPart> sh:class rec:Asset,
+        rec:Space ;
+    sh:path rec:hasPart .
+
+<https://w3id.org/rec#SpaceShape#isPartOf> sh:class rec:Space ;
+    sh:path rec:isPartOf .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#IPAddress> sh:datatype xsd:string ;
+    sh:path rec:IPAddress .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#MACAddress> sh:datatype xsd:string ;
+    sh:path rec:MACAddress .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#assetTag> sh:datatype xsd:string ;
+    sh:path rec:assetTag .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#building> sh:datatype xsd:string ;
+    sh:path gutp:building .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#cloudAuthType> sh:datatype xsd:string ;
+    sh:path rec:cloudAuthType .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#cloudUpdatedTime> sh:datatype xsd:dateTime ;
+    sh:path rec:cloudUpdatedTime .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#commissioningDate> sh:datatype xsd:date ;
+    sh:path rec:commissioningDate .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#customProperties> sh:datatype xsd:string ;
+    sh:path rec:customProperties .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#customTags> sh:datatype xsd:string ;
+    sh:path rec:customTags .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#deviceKey> sh:datatype xsd:string ;
+    sh:path rec:deviceKey .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#device_id> sh:datatype xsd:string ;
+    sh:path gutp:device_id .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#device_name> sh:datatype xsd:string ;
+    sh:path gutp:device_name .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#device_type> sh:datatype xsd:string ;
+    sh:path gutp:device_type .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#documentation> sh:datatype xsd:string ;
+    sh:path rec:documentation .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#feeds> sh:class gutp:GUTPEquipment ;
+    sh:path rec:feeds .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#floor> sh:datatype xsd:string ;
+    sh:path gutp:floor .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#gatewayAddress> sh:datatype xsd:string ;
+    sh:path rec:gatewayAddress .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#gateway_id> sh:datatype xsd:string ;
+    sh:path gutp:gateway_id .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#geometry> sh:datatype xsd:string ;
+    sh:path rec:geometry .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#hasPoint> sh:class gutp:GUTPPoint ;
+    sh:path rec:hasPoint .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#initialCost> sh:datatype xsd:decimal ;
+    sh:path rec:initialCost .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#installationDate> sh:datatype xsd:date ;
+    sh:path rec:installationDate .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#installation_area> sh:datatype xsd:string ;
+    sh:path gutp:installation_area .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#isFedBy> sh:class gutp:GUTPEquipment ;
+    sh:path rec:isFedBy .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#lastConfigTime> sh:datatype xsd:dateTime ;
+    sh:path rec:lastConfigTime .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#lastErrorTime> sh:datatype xsd:dateTime ;
+    sh:path rec:lastErrorTime .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#lastStateTime> sh:datatype xsd:dateTime ;
+    sh:path rec:lastStateTime .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#localnetInfo> sh:datatype xsd:string ;
+    sh:path rec:localnetInfo .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#maintenanceInterval> sh:datatype xsd:duration ;
+    sh:path rec:maintenanceInterval .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#manufacturedBy> sh:datatype xsd:string ;
+    sh:path rec:manufacturedBy .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#metricsRate> sh:datatype xsd:integer ;
+    sh:path rec:metricsRate .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#minLogLevel> sh:datatype xsd:string ;
+    sh:path rec:minLogLevel .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#modelNumber> sh:datatype xsd:string ;
+    sh:path rec:modelNumber .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#mountedOn> sh:class gutp:GUTPEquipment ;
+    sh:path rec:mountedOn .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#owner> sh:datatype xsd:string ;
+    sh:path gutp:owner .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#panel> sh:datatype xsd:string ;
+    sh:path gutp:panel .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#parentDevice> sh:class gutp:GUTPEquipment ;
+    sh:path rec:parentDevice .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#resourceType> sh:datatype xsd:string ;
+    sh:path rec:resourceType .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#room> sh:datatype xsd:string ;
+    sh:path rec:room .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#section> sh:datatype xsd:string ;
+    sh:path rec:section .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#serialNumber> sh:datatype xsd:string ;
+    sh:path rec:serialNumber .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#servicedBy> sh:class gutp:GUTPEquipment ;
+    sh:path rec:servicedBy .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#site> sh:datatype xsd:string ;
+    sh:path gutp:site .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#supplier> sh:datatype xsd:string ;
+    sh:path gutp:supplier .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#target_area> sh:datatype xsd:string ;
+    sh:path gutp:target_area .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#turnoverDate> sh:datatype xsd:date ;
+    sh:path rec:turnoverDate .
+
+<https://www.gutp.jp/bim-wg#GUTPEquipmentShape#weight> sh:datatype xsd:decimal ;
+    sh:path rec:weight .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#description> sh:datatype xsd:string ;
+    sh:path gutp:description .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#device_id_bacnet> sh:datatype xsd:string ;
+    sh:path gutp:device_id_bacnet .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#interval> sh:datatype xsd:integer ;
+    sh:path gutp:interval .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#isPointOf> sh:class gutp:GUTPEquipment ;
+    sh:path rec:isPointOf .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#labels> sh:datatype xsd:string ;
+    sh:path gutp:labels .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#local_id> sh:datatype xsd:string ;
+    sh:path gutp:local_id .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#locatedIn> sh:class rec:Space ;
+    sh:path rec:locatedIn .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#max_pres_value> sh:datatype xsd:decimal ;
+    sh:path gutp:max_pres_value .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#min_pres_value> sh:datatype xsd:decimal ;
+    sh:path gutp:min_pres_value .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#object_id_bacnet> sh:datatype xsd:string ;
+    sh:path gutp:object_id_bacnet .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#object_type_bacnet> sh:datatype xsd:string ;
+    sh:path gutp:object_type_bacnet .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#point_id> sh:datatype xsd:string ;
+    sh:path gutp:point_id .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#point_specification> sh:datatype xsd:string ;
+    sh:path gutp:point_specification .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#point_type> sh:datatype xsd:string ;
+    sh:path gutp:point_type .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#scale> sh:datatype xsd:decimal ;
+    sh:path gutp:scale .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#tags> sh:datatype xsd:string ;
+    sh:path gutp:tags .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#unit> sh:datatype xsd:string ;
+    sh:path gutp:unit .
+
+<https://www.gutp.jp/bim-wg#GUTPPointShape#writable> sh:datatype xsd:boolean ;
+    sh:path gutp:writable .
+
+<https://www.gutp.jp/bim-wg#SpaceShape#customProperties> sh:datatype xsd:string ;
+    sh:path rec:customProperties .
+
+<https://www.gutp.jp/bim-wg#SpaceShape#customTags> sh:datatype xsd:boolean ;
+    sh:path rec:customTags .
+
+<https://www.gutp.jp/bim-wg#SpaceShape#geometry> sh:class rec:Geometry ;
+    sh:path rec:geometry .
+
+<https://www.gutp.jp/bim-wg#SpaceShape#georeference> sh:class rec:Georeference ;
+    sh:path rec:georeference .
+
+<https://www.gutp.jp/bim-wg#SpaceShape#identifiers> sh:datatype xsd:string ;
+    sh:path rec:identifiers .
+
+<https://www.gutp.jp/bim-wg#SpaceShape#isLocationOf> sh:class owl:Thing ;
+    sh:path rec:isLocationOf .
 

@@ -1,0 +1,521 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gutp: <https://www.gutp.jp/bim-wg#> .
+@prefix rec: <https://w3id.org/rec#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# 空間（Space）の制約
+# =============================================================================
+
+gutp:SpaceShape a sh:NodeShape ;
+    sh:targetClass rec:Space ;
+    sh:property [
+        sh:path rec:name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Human-readable name is required"@en ;
+        sh:description "人間可読な名前は必須です"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:identifiers ;
+        sh:minCount 1 ;
+        sh:maxCount 10 ;
+        sh:description "At least one identifier is required (maximum 10)"@en ;
+        sh:description "少なくとも1つの識別子が必要です（最大10個）"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:customProperties ;
+        sh:description "Custom key→map(string→string) properties"@en ;
+        sh:description "カスタムプロパティ（キー→値のマップ）"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:customTags ;
+        sh:description "Custom tags as key→boolean"@en ;
+        sh:description "カスタムタグ（キー→真偽値）"@ja ;
+    ] .
+
+# サイト（Site）の制約
+gutp:SiteShape a sh:NodeShape ;
+    sh:targetClass rec:Site ;
+    sh:property [
+        sh:path rec:hasPart ;
+        sh:class rec:Building ;
+        sh:minCount 1 ;
+        sh:description "Site must contain at least one building"@en ;
+        sh:description "サイトは少なくとも1つの建物を含む必要があります"@ja ;
+    ] .
+
+# 建物（Building）の制約
+gutp:BuildingShape a sh:NodeShape ;
+    sh:targetClass rec:Building ;
+    sh:property [
+        sh:path rec:hasPart ;
+        sh:class rec:Level ;
+        sh:minCount 1 ;
+        sh:description "Building must contain at least one level"@en ;
+        sh:description "建物は少なくとも1つの階層を含む必要があります"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:address ;
+        sh:class rec:PostalAddress ;
+        sh:description "Physical address of the building"@en ;
+        sh:description "建物の物理的住所"@ja ;
+    ] .
+
+# 階層（Level）の制約
+gutp:LevelShape a sh:NodeShape ;
+    sh:targetClass rec:Level ;
+    sh:property [
+        sh:path rec:levelNumber ;
+        sh:datatype xsd:integer ;
+        sh:maxCount 1 ;
+        sh:description "Ordinal number of the level"@en ;
+        sh:description "階層の序数"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:isPartOf ;
+        sh:class rec:Building ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Level must belong to exactly one building"@en ;
+        sh:description "階層は正確に1つの建物に属する必要があります"@ja ;
+    ] .
+
+# エリア（Area）の制約
+gutp:AreaShape a sh:NodeShape ;
+    sh:targetClass rec:Area ;
+    sh:property [
+        sh:path rec:isPartOf ;
+        sh:class rec:Level ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Area must belong to exactly one level"@en ;
+        sh:description "エリアは正確に1つの階層に属する必要があります"@ja ;
+    ] .
+
+# =============================================================================
+# デバイス（Equipment）の制約
+# =============================================================================
+
+gutp:GUTPEquipmentShape a sh:NodeShape ;
+    sh:targetClass gutp:GUTPEquipment ;
+    
+    # 必須プロパティ
+    sh:property [
+        sh:path gutp:gateway_id ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Gateway identifier is required"@en ;
+        sh:description "ゲートウェイ識別子は必須です"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:device_id ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Device identifier is required"@en ;
+        sh:description "デバイス識別子は必須です"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:device_name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Device name is required"@en ;
+        sh:description "デバイス名は必須です"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:device_type ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:in ("Multi-Sensor" "IlluminanceSensor" "BehaviorSensor" "LightingSystem" "GHP_IndoorUnit" "EHP" "Sensor" "VAV" "AirHandlingUnit" "Chiller" "Boiler" "HeatPump") ;
+        sh:description "Device type must be from predefined list"@en ;
+        sh:description "デバイス種別は事前定義されたリストから選択する必要があります"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:site ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Site name is required"@en ;
+        sh:description "サイト名は必須です"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:building ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Building name is required"@en ;
+        sh:description "建物名は必須です"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:floor ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Floor designation is required"@en ;
+        sh:description "階の指定は必須です"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:installation_area ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Installation area is required"@en ;
+        sh:description "設置エリアは必須です"@ja ;
+    ] ;
+    
+    # 任意プロパティ
+    sh:property [
+        sh:path gutp:target_area ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:description "Target control area"@en ;
+        sh:description "制御対象エリア"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:panel ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:description "Control panel information"@en ;
+        sh:description "制御盤情報"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:supplier ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:description "Equipment supplier/manufacturer"@en ;
+        sh:description "機器供給者/製造者"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:owner ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:description "Equipment owner"@en ;
+        sh:description "機器所有者"@ja ;
+    ] ;
+    
+    # 追加メタデータ（RECリストから）
+    sh:property [
+        sh:path rec:assetTag ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:description "Asset tag identifier"@en ;
+        sh:description "資産タグ識別子"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:serialNumber ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:description "Device serial number"@en ;
+        sh:description "デバイスのシリアル番号"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:modelNumber ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:description "Manufacturer model number"@en ;
+        sh:description "メーカー型番"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:initialCost ;
+        sh:datatype xsd:decimal ;
+        sh:maxCount 1 ;
+        sh:description "Initial procurement cost"@en ;
+        sh:description "初期調達コスト"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:weight ;
+        sh:datatype xsd:decimal ;
+        sh:maxCount 1 ;
+        sh:description "Asset weight"@en ;
+        sh:description "資産重量"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:installationDate ;
+        sh:datatype xsd:date ;
+        sh:maxCount 1 ;
+        sh:description "Date of installation"@en ;
+        sh:description "設置日"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:commissioningDate ;
+        sh:datatype xsd:date ;
+        sh:maxCount 1 ;
+        sh:description "Date of commissioning"@en ;
+        sh:description "試運転開始日"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:IPAddress ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:pattern "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$" ;
+        sh:description "IPv4/IPv6 address"@en ;
+        sh:description "IPv4/IPv6アドレス"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:MACAddress ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:pattern "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$" ;
+        sh:description "MAC address"@en ;
+        sh:description "MACアドレス"@ja ;
+    ] ;
+    
+    # 関係性
+    sh:property [
+        sh:path rec:locatedIn ;
+        sh:class rec:Space ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Equipment must be located in exactly one space"@en ;
+        sh:description "機器は正確に1つの空間に配置される必要があります"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:isPartOf ;
+        sh:class rec:Space ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Equipment must be part of exactly one space"@en ;
+        sh:description "機器は正確に1つの空間の一部である必要があります"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:hasPoint ;
+        sh:class gutp:GUTPPoint ;
+        sh:minCount 1 ;
+        sh:description "Equipment must have at least one point"@en ;
+        sh:description "機器は少なくとも1つのポイントを持つ必要があります"@ja ;
+    ] .
+
+# =============================================================================
+# ポイント（Point）の制約
+# =============================================================================
+
+gutp:GUTPPointShape a sh:NodeShape ;
+    sh:targetClass gutp:GUTPPoint ;
+    
+    # 必須プロパティ
+    sh:property [
+        sh:path gutp:point_id ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Point identifier is required"@en ;
+        sh:description "ポイント識別子は必須です"@ja ;
+    ] ;
+    sh:property [
+        sh:path rec:name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Point name is required"@en ;
+        sh:description "ポイント名は必須です"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:point_type ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:in ("CO2" "Temperature" "Humidity" "Illuminance" "PeopleCount" "Electricity" "Pressure" "AirFlow" "WaterFlow" "Power" "Energy") ;
+        sh:description "Point type must be from predefined list"@en ;
+        sh:description "ポイント種別は事前定義されたリストから選択する必要があります"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:point_specification ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:in ("Alarm" "Command" "Setpoint" "Measurement" "Metering" "Status") ;
+        sh:description "Point specification must be from predefined list"@en ;
+        sh:description "ポイント区分は事前定義されたリストから選択する必要があります"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:writable ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Writable flag is required"@en ;
+        sh:description "書き込み可能フラグは必須です"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:local_id ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Local identifier is required"@en ;
+        sh:description "ローカル識別子は必須です"@ja ;
+    ] ;
+    
+    # 任意プロパティ
+    sh:property [
+        sh:path gutp:interval ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ;
+        sh:maxCount 1 ;
+        sh:description "Polling interval in seconds (minimum 1)"@en ;
+        sh:description "ポーリング間隔（秒、最小1）"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:unit ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:in ("°C" "%" "ppm" "lx" "person" "kW" "V" "A" "Hz" "Pa" "m³/h" "L/min" "kWh" "MJ") ;
+        sh:description "Measurement unit (SI units preferred)"@en ;
+        sh:description "測定単位（SI単位系推奨）"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:max_pres_value ;
+        sh:datatype xsd:decimal ;
+        sh:maxCount 1 ;
+        sh:description "Maximum present value"@en ;
+        sh:description "最大現在値"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:min_pres_value ;
+        sh:datatype xsd:decimal ;
+        sh:maxCount 1 ;
+        sh:description "Minimum present value"@en ;
+        sh:description "最小現在値"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:scale ;
+        sh:datatype xsd:decimal ;
+        sh:maxCount 1 ;
+        sh:description "Scale factor for present value"@en ;
+        sh:description "現在値のスケール係数"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:labels ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:description "Labels for multi-state values (separated by &&)"@en ;
+        sh:description "マルチステート値のラベル（&&で区切り）"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:tags ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:description "Search tags (separated by &&)"@en ;
+        sh:description "検索タグ（&&で区切り）"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:description ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:description "Point description"@en ;
+        sh:description "ポイントの説明"@ja ;
+    ] ;
+    
+    # BACnet関連（任意）
+    sh:property [
+        sh:path gutp:device_id_bacnet ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:description "BACnet device identifier"@en ;
+        sh:description "BACnetデバイス識別子"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:object_id_bacnet ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:description "BACnet object identifier"@en ;
+        sh:description "BACnetオブジェクト識別子"@ja ;
+    ] ;
+    sh:property [
+        sh:path gutp:object_type_bacnet ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:in ("Analog-Input" "Analog-Output" "Binary-Input" "Binary-Output" "Multi-State-Input" "Multi-State-Output") ;
+        sh:description "BACnet object type"@en ;
+        sh:description "BACnetオブジェクト種別"@ja ;
+    ] ;
+    
+    # 関係性
+    sh:property [
+        sh:path rec:isPointOf ;
+        sh:class gutp:GUTPEquipment ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Point must belong to exactly one equipment"@en ;
+        sh:description "ポイントは正確に1つの機器に属する必要があります"@ja ;
+    ] .
+
+# =============================================================================
+# 値の整合性制約
+# =============================================================================
+
+# 最大値・最小値の整合性
+gutp:MinMaxValueConstraint a sh:NodeShape ;
+    sh:targetClass gutp:GUTPPoint ;
+    sh:sparql [
+        sh:message "Maximum value must be greater than minimum value"@en ;
+        sh:message "最大値は最小値より大きい必要があります"@ja ;
+        sh:prefixes [
+            sh:declare [
+                sh:prefix "gutp" ;
+                sh:namespace "https://www.gutp.jp/bim-wg#"^^xsd:anyURI ;
+            ]
+        ] ;
+        sh:select """
+            SELECT $this WHERE {
+                $this gutp:max_pres_value ?max ;
+                      gutp:min_pres_value ?min .
+                FILTER (?max <= ?min)
+            }
+        """ ;
+    ] .
+
+# 湿度の値範囲制約
+gutp:HumidityRangeConstraint a sh:NodeShape ;
+    sh:targetClass gutp:GUTPPoint ;
+    sh:sparql [
+        sh:message "Humidity values must be between 0 and 100"@en ;
+        sh:message "湿度の値は0から100の間である必要があります"@ja ;
+        sh:prefixes [
+            sh:declare [
+                sh:prefix "gutp" ;
+                sh:namespace "https://www.gutp.jp/bim-wg#"^^xsd:anyURI ;
+            ]
+        ] ;
+        sh:select """
+            SELECT $this WHERE {
+                $this gutp:point_type "Humidity" ;
+                      gutp:max_pres_value ?max .
+                FILTER (?max > 100)
+            }
+        """ ;
+    ] .
+
+# 温度の値範囲制約
+gutp:TemperatureRangeConstraint a sh:NodeShape ;
+    sh:targetClass gutp:GUTPPoint ;
+    sh:sparql [
+        sh:message "Temperature values should be within reasonable range (-50 to 100°C)"@en ;
+        sh:message "温度の値は妥当な範囲内（-50から100°C）である必要があります"@ja ;
+        sh:prefixes [
+            sh:declare [
+                sh:prefix "gutp" ;
+                sh:namespace "https://www.gutp.jp/bim-wg#"^^xsd:anyURI ;
+            ]
+        ] ;
+        sh:select """
+            SELECT $this WHERE {
+                $this gutp:point_type "Temperature" ;
+                      gutp:max_pres_value ?max .
+                FILTER (?max > 100 || ?max < -50)
+            }
+        """ ;
+    ] .
+
+# CO2濃度の値範囲制約
+gutp:CO2RangeConstraint a sh:NodeShape ;
+    sh:targetClass gutp:GUTPPoint ;
+    sh:sparql [
+        sh:message "CO2 values should be within reasonable range (0 to 10000 ppm)"@en ;
+        sh:message "CO2の値は妥当な範囲内（0から10000 ppm）である必要があります"@ja ;
+        sh:prefixes [
+            sh:declare

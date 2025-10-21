@@ -1,0 +1,497 @@
+{
+  "$id": "urn:schema:building-graph-rec",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BuildingGraph (REC)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["nodes", "edges"],
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Node" }
+    },
+    "edges": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Edge" }
+    }
+  },
+  "$defs": {
+    "Iri": {
+      "type": "string",
+      "description": "Constrained DTMI IRI with version suffix",
+      "pattern": "^dtmi:[A-Za-z0-9._:-]+;[1-9][0-9]*$"
+    },
+
+    "DtmiSite":     { "type": "string", "pattern": "^dtmi:ex:site:[A-Za-z0-9._-]+;[1-9][0-9]*$" },
+    "DtmiBuilding": { "type": "string", "pattern": "^dtmi:ex:building:[A-Za-z0-9._-]+\\.[A-Za-z0-9._-]+;[1-9][0-9]*$" },
+
+    "DtmiSpace": {
+      "type": "string",
+      "description": "site.building.<space>(.<space>)+ — Level も Space の一種として表現",
+      "pattern": "^dtmi:ex:space:[A-Za-z0-9._-]+\\.[A-Za-z0-9._-]+(?:\\.[A-Za-z0-9._-]+)+;[1-9][0-9]*$"
+    },
+
+    "DtmiLevel": {
+      "type": "string",
+      "description": "Level は Space の一種。IRI パターンは DtmiSpace と同一。",
+      "pattern": "^dtmi:ex:space:[A-Za-z0-9._-]+\\.[A-Za-z0-9._-]+(?:\\.[A-Za-z0-9._-]+)+;[1-9][0-9]*$"
+    },
+
+    "DtmiAsset":    { "type": "string", "pattern": "^dtmi:ex:asset:[A-Za-z0-9._-]+;[1-9][0-9]*$" },
+    "DtmiPoint":    { "type": "string", "pattern": "^dtmi:ex:point:[A-Za-z0-9._-]+;[1-9][0-9]*$" },
+
+    "RelationName": {
+      "type": "string",
+      "enum": [
+        "rec:hasPart",
+        "rec:isPartOf",
+        "rec:hasSpace",
+        "rec:locatedIn",
+        "brick:hasPoint",
+        "rec:adjacentElement",
+        "rec:containsElement",
+        "rec:intersectingElement",
+        "rec:isFedBy",
+        "rec:isLocationOf"
+      ]
+    },
+
+    "SubstanceEnum": {
+      "type": "string",
+      "enum": [
+        "ACElec", "Air", "BlowdownWater", "ChilledWater", "ColdDomesticWater", 
+        "Condensate", "CondenserWater", "DCElec", "Diesel", "DriveElec", 
+        "Ethernet", "ExhaustAir", "Freight", "FuelOil", "Gasoline", 
+        "GreaseExhaustAir", "HotDomesticWater", "HotWater", "IrrigationWater", 
+        "Light", "MakeupWater", "NaturalGas", "NonPotableDomesticWater", 
+        "OutsideAir", "People", "Propane", "RecircHotDomesticWater", 
+        "Refrig", "ReturnAir", "SprinklerWater", "Steam", "StormDrainage", 
+        "SupplyAir", "TransferAir", "WasteVentDrainage", "Water"
+      ]
+    },
+
+    // REC標準の空間メタデータ
+    "SpatialMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        // Basic Properties (from REC Space class)
+        "name": { "type": "string", "description": "Human-readable name" },
+        "customProperties": { 
+          "type": "object", 
+          "additionalProperties": { "type": "object" },
+          "description": "Custom key→map(string→string)"
+        },
+        "customTags": { 
+          "type": "object", 
+          "additionalProperties": { "type": "boolean" },
+          "description": "Custom tags as key→boolean"
+        },
+        "identifiers": { 
+          "type": "object", 
+          "additionalProperties": { "type": "string" },
+          "description": "Identifier key→string map"
+        },
+
+        // Architecture Components
+        "area": {
+          "type": "object",
+          "description": "Area component for designed/architected spaces",
+          "properties": {
+            "grossArea": { "type": "number", "minimum": 0, "description": "Gross floor area in m²" },
+            "netArea": { "type": "number", "minimum": 0, "description": "Net usable area in m²" },
+            "rentableArea": { "type": "number", "minimum": 0, "description": "Rentable area in m²" }
+          }
+        },
+        "capacity": {
+          "type": "object", 
+          "description": "Capacity component for designed/architected spaces",
+          "properties": {
+            "occupancy": { "type": "integer", "minimum": 0, "description": "Maximum occupancy" },
+            "parkingSpaces": { "type": "integer", "minimum": 0, "description": "Number of parking spaces" },
+            "seatingCapacity": { "type": "integer", "minimum": 0, "description": "Seating capacity" }
+          }
+        },
+
+        // Geometric and Geographic Properties  
+        "geometry": {
+          "type": "object",
+          "description": "Polygon representing the spatial extent",
+          "properties": {
+            "type": { "type": "string", "enum": ["Polygon", "MultiPolygon"] },
+            "coordinates": { "type": "array", "description": "GeoJSON coordinates" }
+          }
+        },
+        "georeference": {
+          "type": "object",
+          "description": "Relates local coordinate system to geographic coordinates", 
+          "properties": {
+            "coordinateSystem": { "type": "string", "description": "Coordinate reference system" },
+            "origin": {
+              "type": "object",
+              "properties": {
+                "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
+                "longitude": { "type": "number", "minimum": -180, "maximum": 180 },
+                "elevation": { "type": "number", "description": "Elevation in meters" }
+              }
+            }
+          }
+        },
+
+        // Agent Relationships (stored as references)
+        "architectedBy": { "type": "string", "description": "Architect agent reference" },
+        "constructedBy": { "type": "string", "description": "Constructor agent reference" },
+        "operatedBy": { "type": "string", "description": "Operator agent reference" },
+        "ownedBy": { "type": "string", "description": "Owner agent reference" },
+
+        // Address Information
+        "address": {
+          "type": "object",
+          "description": "Physical address",
+          "properties": {
+            "street": { "type": "string" },
+            "city": { "type": "string" },
+            "state": { "type": "string" },
+            "country": { "type": "string" },
+            "postalCode": { "type": "string" }
+          }
+        },
+
+        // Utility/Service Connections
+        "isFedBy": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/SubstanceEnum" },
+          "description": "Substances/utilities feeding this space"
+        },
+
+        // Documentation
+        "documentation": {
+          "type": "array",
+          "items": { "type": "string", "format": "uri" },
+          "description": "Links to documentation"
+        }
+      }
+    },
+
+    // Level-specific metadata
+    "LevelMetadata": {
+      "allOf": [
+        { "$ref": "#/$defs/SpatialMetadata" },
+        {
+          "type": "object",
+          "properties": {
+            "levelNumber": { 
+              "type": "integer", 
+              "description": "Ordinal number of the level within the containing space"
+            }
+          }
+        }
+      ]
+    },
+
+    "Named": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["iri", "name"],
+      "patternProperties": { "^x-": {} },
+      "properties": {
+        "iri":  { "$ref": "#/$defs/Iri" },
+        "name": { "type": "string" }
+      }
+    },
+
+    // Asset Properties (existing, unchanged)
+    "AssetProps": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": { "^x-": {} },
+      "properties": {
+        "iri":         { "$ref": "#/$defs/Iri" },
+        
+        // 既存プロパティ
+        "assetType":   { "type": "string" },
+        "device_id":   { "type": "string" },
+        "device_name": { "type": "string" },
+        "device_type": { "type": "string" },
+        "gateway_id":  { "type": "string" },
+        "panel":       { "type": "string" },
+        "supplier":    { "type": "string" },
+        "owner":       { "type": "string" },
+        "tags":        { "type": "array", "items": { "type": "string" } },
+        
+        // 基本識別子 (UDMI → REC mapping)
+        "serialNumber": { "type": "string", "description": "Serial number (UDMI: system.serial_no)" },
+        "assetTag": { "type": "string", "description": "Asset tag / GUID (UDMI: physical_tag.asset.guid)" },
+        "description": { "type": "string", "description": "Description (UDMI: system.description)" },
+        "customTags": { "type": "array", "items": { "type": "string" }, "description": "Custom tags (UDMI: system.tags)" },
+        
+        // ハードウェア情報
+        "manufacturedBy": { "type": "string", "description": "Manufacturer (UDMI: system.hardware.make)" },
+        "modelNumber": { "type": "string", "description": "Model number (UDMI: system.hardware.model)" },
+        "sku": { "type": "string", "description": "SKU (UDMI: system.hardware.sku)" },
+        "revision": { "type": "string", "description": "Hardware revision (UDMI: system.hardware.rev)" },
+        
+        // ソフトウェア情報
+        "softwareVersion": { "type": "string", "description": "Software version (UDMI: system.software)" },
+        
+        // 設置・ライフサイクル情報
+        "installationDate": { "type": "string", "format": "date", "description": "Installation date" },
+        "commissioningDate": { "type": "string", "format": "date", "description": "Commissioning date" },
+        "turnoverDate": { "type": "string", "format": "date-time", "description": "Turnover date (UDMI: last_config_time)" },
+        "maintenanceInterval": { "type": "integer", "minimum": 0, "description": "Maintenance interval in days" },
+        "initialCost": { "type": "number", "minimum": 0, "description": "Initial cost" },
+        "weight": { "type": "number", "minimum": 0, "description": "Weight in kg" },
+        
+        // 位置情報
+        "coordinates": {
+          "type": "object",
+          "description": "Geographic coordinates (UDMI: system.location.coordinates)",
+          "additionalProperties": false,
+          "properties": {
+            "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
+            "longitude": { "type": "number", "minimum": -180, "maximum": 180 },
+            "altitude": { "type": "number", "description": "Altitude in meters" }
+          }
+        },
+        "position": {
+          "type": "object", 
+          "description": "Local position coordinates (UDMI: system.location.position)",
+          "additionalProperties": false,
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" },
+            "z": { "type": "number" }
+          }
+        },
+        "room": { "type": "string", "description": "Room location (UDMI: system.location.room)" },
+        "floor": { "type": "string", "description": "Floor location (UDMI: system.location.floor)" },
+        "section": { "type": "string", "description": "Section location (UDMI: system.location.section)" },
+        
+        // ネットワーク情報
+        "ipAddress": { "type": "string", "format": "ipv4", "description": "IP Address (UDMI: cloud.gateway.target.addr)" },
+        "macAddress": { "type": "string", "pattern": "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$", "description": "MAC Address (UDMI: localnet)" },
+        
+        // クラウド・運用情報 (UDMIのみ、RECマッピングなし)
+        "authType": { "type": "string", "description": "Cloud auth type (UDMI: cloud.auth_type)" },
+        "resourceType": { "type": "string", "description": "Cloud resource type (UDMI: cloud.resource_type)" },
+        "minLogLevel": { "type": "string", "enum": ["DEBUG", "INFO", "WARN", "ERROR"], "description": "Minimum log level (UDMI: system.min_loglevel)" },
+        "metricsRateSec": { "type": "integer", "minimum": 1, "description": "Metrics rate in seconds (UDMI: system.metrics_rate_sec)" },
+        
+        // タイムスタンプ情報
+        "lastStateTime": { "type": "string", "format": "date-time", "description": "Last state update time (UDMI: last_state_time)" },
+        "lastConfigTime": { "type": "string", "format": "date-time", "description": "Last config update time (UDMI: last_config_time)" },
+        "lastErrorTime": { "type": "string", "format": "date-time", "description": "Last error time (UDMI: last_error_time)" },
+        
+        // カスタム拡張
+        "customProperties": { 
+          "type": "object", 
+          "additionalProperties": true,
+          "description": "Custom properties for additional metadata" 
+        },
+        
+        // 関係性情報（エッジとして表現される場合もあるが、参照として保持）
+        "parentId": { "type": "string", "description": "Parent gateway ID (UDMI: gateway.parent_id)" },
+        "proxyIds": { 
+          "type": "array", 
+          "items": { "type": "string" }, 
+          "description": "Proxy IDs (UDMI: gateway.proxy_ids)" 
+        },
+        
+        // 文書・リンク
+        "documentationUrl": { "type": "string", "format": "uri", "description": "Documentation link" }
+      }
+    },
+
+    "PointSpecification": {
+      "type": "string",
+      "enum": ["Alarm", "Command", "Setpoint", "Measurement", "Metering", "Status"],
+      "default": "Measurement"
+    },
+
+    "PointProps": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": { "^x-": {} },
+      "required": ["point_id", "point_type"],
+      "properties": {
+        "iri":                { "$ref": "#/$defs/Iri" },
+        "point_id":           { "type": "string" },
+        "point_name":         { "type": "string" },
+        "point_type":         { "type": "string" },
+        "point_specification":{ "$ref": "#/$defs/PointSpecification" },
+        "writable":           { "type": "boolean" },
+        "interval":           { "type": "integer", "minimum": 0 },
+        "unit":               { "type": "string" },
+        "max_pres_value":     { "type": "number" },
+        "min_pres_value":     { "type": "number" },
+        "labels":             { "type": "array", "items": { "type": "string" } },
+        "scale":              { "type": "number" },
+        "local_id":           { "type": "string" },
+        "device_id_bacnet":   { "type": "string" },
+        "instance_no_bacnet": { "type": "integer", "minimum": 0 },
+        "object_id_bacnet":   { "type": "string" },
+        "object_type_bacnet": { "type": "string" }
+      }
+    },
+
+    // Updated Node Definitions with REC Spatial Metadata
+    "SiteNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": { "^x-": {} },
+      "required": ["kind", "iri", "name"],
+      "allOf": [
+        { "$ref": "#/$defs/SpatialMetadata" },
+        {
+          "properties": {
+            "kind":    { "const": "Site" },
+            "rdfType": { "enum": ["rec:Site"], "default": "rec:Site" },
+            "iri":     { "$ref": "#/$defs/DtmiSite" },
+            "title":   { "enum": ["Site"], "default": "Site" }
+          }
+        }
+      ]
+    },
+
+    "BuildingNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": { "^x-": {} },
+      "required": ["kind", "iri", "name"],
+      "allOf": [
+        { "$ref": "#/$defs/SpatialMetadata" },
+        {
+          "properties": {
+            "kind":    { "const": "Building" },
+            "rdfType": { "enum": ["rec:Building"], "default": "rec:Building" },
+            "iri":     { "$ref": "#/$defs/DtmiBuilding" },
+            "title":   { "enum": ["Building"], "default": "Building" }
+          }
+        }
+      ]
+    },
+
+    "SpaceNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": { "^x-": {} },
+      "required": ["kind", "iri", "name"],
+      "allOf": [
+        { "$ref": "#/$defs/SpatialMetadata" },
+        {
+          "properties": {
+            "kind":    { "const": "Space" },
+            "rdfType": { "enum": ["rec:Space"], "default": "rec:Space" },
+            "iri":     { "$ref": "#/$defs/DtmiSpace" },
+            "title":   { "enum": ["Space/Area"], "default": "Space/Area" }
+          }
+        }
+      ]
+    },
+
+    "LevelNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": { "^x-": {} },
+      "required": ["kind", "iri", "name"],
+      "allOf": [
+        { "$ref": "#/$defs/LevelMetadata" },
+        {
+          "properties": {
+            "kind":    { "const": "Level" },
+            "rdfType": { "enum": ["rec:Storey"], "default": "rec:Storey" },
+            "iri":     { "$ref": "#/$defs/DtmiLevel" },
+            "title":   { "enum": ["Level/Storey"], "default": "Level/Storey" }
+          }
+        }
+      ]
+    },
+
+    "AssetNode": {
+      "allOf": [
+        { "$ref": "#/$defs/AssetProps" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind":    { "const": "Asset" },
+            "rdfType": { "enum": ["brick:Equipment", "rec:Asset"], "default": "brick:Equipment" },
+            "iri":     { "$ref": "#/$defs/DtmiAsset" },
+            "title":   { "enum": ["Asset/Equipment"], "default": "Asset/Equipment" },
+            "name":    { "type": "string" }
+          },
+          "required": ["kind", "iri"]
+        }
+      ]
+    },
+
+    "PointNode": {
+      "allOf": [
+        { "$ref": "#/$defs/PointProps" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind":    { "const": "Point" },
+            "rdfType": { "enum": ["brick:Point", "rec:MeasurementPoint"], "default": "brick:Point" },
+            "iri":     { "$ref": "#/$defs/DtmiPoint" },
+            "title":   { "enum": ["Point/Sensor"], "default": "Point/Sensor" }
+          },
+          "required": ["kind", "iri", "point_id", "point_type"]
+        }
+      ]
+    },
+
+    "Node": {
+      "oneOf": [
+        { "$ref": "#/$defs/SiteNode" },
+        { "$ref": "#/$defs/BuildingNode" },
+        { "$ref": "#/$defs/LevelNode" },
+        { "$ref": "#/$defs/SpaceNode" },
+        { "$ref": "#/$defs/AssetNode" },
+        { "$ref": "#/$defs/PointNode" }
+      ]
+    },
+
+    // Updated Edge with additional REC relationships
+    "Edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relation", "sourceIri", "targetIri"],
+      "properties": {
+        "relation":  { "$ref": "#/$defs/RelationName" },
+        "sourceIri": { "$ref": "#/$defs/Iri" },
+        "targetIri": { "$ref": "#/$defs/Iri" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "relation": { "const": "brick:hasPoint" } }, "required": ["relation"] },
+          "then": {
+            "properties": {
+              "sourceIri": { "type": "string", "pattern": "^dtmi:ex:asset:" },
+              "targetIri": { "type": "string", "pattern": "^dtmi:ex:point:" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "relation": { "const": "rec:hasSpace" } }, "required": ["relation"] },
+          "then": {
+            "properties": {
+              "sourceIri": { "type": "string", "pattern": "^dtmi:ex:building:" },
+              "targetIri": { "type": "string", "pattern": "^dtmi:ex:space:" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "relation": { "const": "rec:locatedIn" } }, "required": ["relation"] },
+          "then": {
+            "properties": {
+              "sourceIri": { "type": "string", "pattern": "^dtmi:ex:(asset|point):" },
+              "targetIri": { "type": "string", "pattern": "^dtmi:ex:(space|building):" }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

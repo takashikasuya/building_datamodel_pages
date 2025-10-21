@@ -1,54 +1,734 @@
-@prefix ex: <https://example.org/ontology/> .
+@prefix brick1: <https://brickschema.org/schema/1.4/Brick#> .
+@prefix gutp: <https://www.gutp.jp/bim-wg#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rec: <https://w3id.org/rec#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ex: a owl:Ontology ;
-    owl:versionIRI ex:1.0.0 ;
-    owl:versionInfo "1.0.0" .
+rec:ACElec a owl:Class ;
+    rdfs:label "AC Electricity"@en,
+        "交流電気"@ja ;
+    rdfs:subClassOf rec:Substance .
 
-ex:buildingName a owl:DatatypeProperty ;
-    rdfs:label "building name"@en,
-        "建物名"@ja ;
-    rdfs:domain ex:Building ;
-    rdfs:range xsd:string ;
-    owl:equivalentProperty rec:name .
+rec:Air a owl:Class ;
+    rdfs:label "Air"@en,
+        "空気"@ja ;
+    rdfs:subClassOf rec:Substance .
 
-ex:hasFloor a owl:ObjectProperty ;
-    rdfs:label "has floor"@en,
-        "フロアを持つ"@ja ;
-    rdfs:domain ex:Building ;
-    rdfs:range ex:Floor .
+rec:ChilledWater a owl:Class ;
+    rdfs:label "Chilled Water"@en,
+        "冷水"@ja ;
+    rdfs:subClassOf rec:Substance .
 
-ex:hasRoom a owl:ObjectProperty ;
-    rdfs:label "has room"@en,
-        "部屋を持つ"@ja ;
-    rdfs:domain ex:Floor ;
-    rdfs:range ex:Room .
+rec:HotWater a owl:Class ;
+    rdfs:label "Hot Water"@en,
+        "温水"@ja ;
+    rdfs:subClassOf rec:Substance .
 
-ex:Room a owl:Class ;
+rec:IPAddress a owl:DatatypeProperty ;
+    rdfs:label "IP address"@en,
+        "IPアドレス"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+rec:MACAddress a owl:DatatypeProperty ;
+    rdfs:label "MAC address"@en,
+        "MACアドレス"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+rec:MeasurementPoint owl:equivalentClass brick1:Point .
+
+rec:NaturalGas a owl:Class ;
+    rdfs:label "Natural Gas"@en,
+        "天然ガス"@ja ;
+    rdfs:subClassOf rec:Substance .
+
+rec:OutdoorSpace a owl:Class ;
+    rdfs:label "Outdoor Space"@en,
+        "屋外空間"@ja ;
+    rdfs:comment "An outdoor architectural space."@en,
+        "屋外の建築空間。"@ja ;
+    rdfs:subClassOf rec:Architecture .
+
+rec:Region a owl:Class ;
+    rdfs:label "Region"@en,
+        "地域"@ja ;
+    rdfs:comment "A geographic or administrative region."@en,
+        "地理的または行政的地域。"@ja ;
+    rdfs:subClassOf gutp:Space .
+
+rec:Room a owl:Class ;
     rdfs:label "Room"@en,
         "部屋"@ja ;
-    rdfs:subClassOf ex:SpatialElement .
+    rdfs:comment "A room or enclosed space within a building."@en,
+        "建物内の部屋または囲まれた空間。"@ja ;
+    rdfs:subClassOf rec:Architecture .
 
-ex:Building a owl:Class ;
+rec:Site a owl:Class ;
+    rdfs:label "Site"@en,
+        "サイト"@ja ;
+    rdfs:comment "A site that contains buildings and other facilities."@en,
+        "建物やその他の施設を含むサイト。"@ja ;
+    rdfs:subClassOf rec:Architecture .
+
+rec:Steam a owl:Class ;
+    rdfs:label "Steam"@en,
+        "蒸気"@ja ;
+    rdfs:subClassOf rec:Substance .
+
+rec:SubBuilding a owl:Class ;
+    rdfs:label "Sub Building"@en,
+        "副建物"@ja ;
+    rdfs:comment "A sub-building within a larger building complex."@en,
+        "大きな建物複合体内の副建物。"@ja ;
+    rdfs:subClassOf rec:Architecture .
+
+rec:Water a owl:Class ;
+    rdfs:label "Water"@en,
+        "水"@ja ;
+    rdfs:subClassOf rec:Substance .
+
+rec:Zone a owl:Class ;
+    rdfs:label "Zone"@en,
+        "ゾーン"@ja ;
+    rdfs:comment "A functional zone within a building or site."@en,
+        "建物またはサイト内の機能的ゾーン。"@ja ;
+    rdfs:subClassOf rec:Architecture .
+
+rec:address a owl:ObjectProperty ;
+    rdfs:label "address"@en,
+        "住所"@ja ;
+    rdfs:domain rec:Building ;
+    rdfs:range rec:PostalAddress .
+
+rec:adjacentElement a owl:ObjectProperty ;
+    rdfs:label "adjacent element"@en,
+        "隣接要素"@ja ;
+    rdfs:domain rec:Architecture ;
+    rdfs:range rec:BuildingElement .
+
+rec:architectedBy a owl:ObjectProperty ;
+    rdfs:label "architected by"@en,
+        "によって設計された"@ja ;
+    rdfs:domain rec:Architecture ;
+    rdfs:range rec:Agent .
+
+rec:area a owl:ObjectProperty ;
+    rdfs:label "area"@en,
+        "面積"@ja ;
+    rdfs:domain rec:Architecture ;
+    rdfs:range rec:ArchitectureArea .
+
+rec:assetTag a owl:DatatypeProperty ;
+    rdfs:label "asset tag"@en,
+        "資産タグ"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+rec:capacity a owl:ObjectProperty ;
+    rdfs:label "capacity"@en,
+        "容量"@ja ;
+    rdfs:domain rec:Architecture ;
+    rdfs:range rec:ArchitectureCapacity .
+
+rec:cloudAuthType a owl:DatatypeProperty ;
+    rdfs:label "cloud auth type"@en,
+        "クラウド認証タイプ"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+rec:cloudUpdatedTime a owl:DatatypeProperty ;
+    rdfs:label "cloud updated time"@en,
+        "クラウド更新時刻"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:dateTime .
+
+rec:commissioningDate a owl:DatatypeProperty ;
+    rdfs:label "commissioning date"@en,
+        "試運転開始日"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:date .
+
+rec:constructedBy a owl:ObjectProperty ;
+    rdfs:label "constructed by"@en,
+        "によって建設された"@ja ;
+    rdfs:domain rec:Architecture ;
+    rdfs:range rec:Agent .
+
+rec:containsElement a owl:ObjectProperty ;
+    rdfs:label "contains element"@en,
+        "要素を含む"@ja ;
+    rdfs:domain rec:Architecture ;
+    rdfs:range rec:BuildingElement .
+
+rec:customProperties a owl:DatatypeProperty ;
+    rdfs:label "custom properties"@en,
+        "カスタムプロパティ"@ja ;
+    rdfs:domain gutp:GUTPEquipment,
+        gutp:Space ;
+    rdfs:range xsd:string .
+
+rec:customTags a owl:DatatypeProperty ;
+    rdfs:label "custom tags"@en,
+        "カスタムタグ"@ja ;
+    rdfs:domain gutp:GUTPEquipment,
+        gutp:Space ;
+    rdfs:range xsd:boolean,
+        xsd:string .
+
+rec:deviceKey a owl:DatatypeProperty ;
+    rdfs:label "device key"@en,
+        "デバイスキー"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+rec:documentation a owl:DatatypeProperty,
+        owl:ObjectProperty ;
+    rdfs:label "documentation"@en,
+        "文書"@ja ;
+    rdfs:domain rec:Architecture,
+        gutp:GUTPEquipment ;
+    rdfs:range xsd:string,
+        rec:Document .
+
+rec:feeds a owl:ObjectProperty ;
+    rdfs:label "feeds"@en,
+        "供給する"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range gutp:GUTPEquipment .
+
+rec:gatewayAddress a owl:DatatypeProperty ;
+    rdfs:label "gateway address"@en,
+        "ゲートウェイアドレス"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+rec:geometry a owl:DatatypeProperty,
+        owl:ObjectProperty ;
+    rdfs:label "geometry"@en,
+        "幾何"@ja,
+        "座標"@ja ;
+    rdfs:domain gutp:GUTPEquipment,
+        gutp:Space ;
+    rdfs:range xsd:string,
+        rec:Geometry .
+
+rec:georeference a owl:ObjectProperty ;
+    rdfs:label "georeference"@en,
+        "地理参照"@ja ;
+    rdfs:domain gutp:Space ;
+    rdfs:range rec:Georeference .
+
+rec:hasPart a owl:ObjectProperty ;
+    rdfs:label "has part"@en,
+        "部分を持つ"@ja ;
+    rdfs:domain rec:Space ;
+    rdfs:range rec:Asset,
+        rec:Space ;
+    owl:equivalentProperty brick1:hasPart .
+
+rec:hasPoint a owl:ObjectProperty ;
+    rdfs:label "has point"@en,
+        "ポイントを持つ"@ja ;
+    rdfs:domain rec:Architecture,
+        gutp:GUTPEquipment ;
+    rdfs:range rec:Point,
+        gutp:GUTPPoint .
+
+rec:identifiers a owl:DatatypeProperty ;
+    rdfs:label "identifiers"@en,
+        "識別子"@ja ;
+    rdfs:domain gutp:Space ;
+    rdfs:range xsd:string .
+
+rec:initialCost a owl:DatatypeProperty ;
+    rdfs:label "initial cost"@en,
+        "初期コスト"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:decimal .
+
+rec:installationDate a owl:DatatypeProperty ;
+    rdfs:label "installation date"@en,
+        "設置日"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:date .
+
+rec:intersectingElement a owl:ObjectProperty ;
+    rdfs:label "intersecting element"@en,
+        "交差要素"@ja ;
+    rdfs:domain rec:Architecture ;
+    rdfs:range rec:BuildingElement .
+
+rec:isFedBy a owl:ObjectProperty ;
+    rdfs:label "is fed by"@en,
+        "から供給される"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range gutp:GUTPEquipment .
+
+rec:isFedBySubstance a owl:ObjectProperty ;
+    rdfs:label "is fed by substance"@en,
+        "物質によって供給される"@ja ;
+    rdfs:domain rec:Architecture ;
+    rdfs:range rec:Substance .
+
+rec:isLocationOf a owl:ObjectProperty ;
+    rdfs:label "is location of"@en,
+        "の場所である"@ja ;
+    rdfs:domain gutp:Space ;
+    rdfs:range owl:Thing .
+
+rec:isPartOf a owl:ObjectProperty ;
+    rdfs:label "is part of"@en,
+        "の部分である"@ja ;
+    rdfs:domain rec:Asset,
+        rec:Space ;
+    rdfs:range rec:Space .
+
+rec:isPointOf a owl:ObjectProperty ;
+    rdfs:label "is point of"@en,
+        "のポイントである"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range gutp:GUTPEquipment .
+
+rec:lastConfigTime a owl:DatatypeProperty ;
+    rdfs:label "last config time"@en,
+        "最終設定時刻"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:dateTime .
+
+rec:lastErrorTime a owl:DatatypeProperty ;
+    rdfs:label "last error time"@en,
+        "最終エラー時刻"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:dateTime .
+
+rec:lastStateTime a owl:DatatypeProperty ;
+    rdfs:label "last state time"@en,
+        "最終状態時刻"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:dateTime .
+
+rec:levelNumber a owl:DatatypeProperty ;
+    rdfs:label "level number"@en,
+        "階数"@ja ;
+    rdfs:domain rec:Level ;
+    rdfs:range xsd:integer .
+
+rec:localnetInfo a owl:DatatypeProperty ;
+    rdfs:label "local network info"@en,
+        "ローカルネットワーク情報"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+rec:locatedIn a owl:ObjectProperty ;
+    rdfs:label "located in"@en,
+        "に位置する"@ja ;
+    rdfs:domain rec:Asset,
+        gutp:GUTPPoint ;
+    rdfs:range rec:Space ;
+    owl:equivalentProperty brick1:isLocationOf .
+
+rec:maintenanceInterval a owl:DatatypeProperty ;
+    rdfs:label "maintenance interval"@en,
+        "メンテ周期"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:duration .
+
+rec:manufacturedBy a owl:DatatypeProperty ;
+    rdfs:label "manufactured by"@en,
+        "製造者"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+rec:metricsRate a owl:DatatypeProperty ;
+    rdfs:label "metrics rate"@en,
+        "メトリクス頻度"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:integer .
+
+rec:minLogLevel a owl:DatatypeProperty ;
+    rdfs:label "minimum log level"@en,
+        "最小ログレベル"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+rec:modelNumber a owl:DatatypeProperty ;
+    rdfs:label "model number"@en,
+        "型番"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+rec:mountedOn a owl:ObjectProperty ;
+    rdfs:label "mounted on"@en,
+        "に取り付けられる"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range gutp:GUTPEquipment .
+
+rec:name a owl:DatatypeProperty ;
+    rdfs:label "name"@en,
+        "名前"@ja ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string ;
+    owl:equivalentProperty rdfs:label .
+
+rec:operatedBy a owl:ObjectProperty ;
+    rdfs:label "operated by"@en,
+        "によって運営される"@ja ;
+    rdfs:domain rec:Architecture ;
+    rdfs:range rec:Agent .
+
+rec:ownedBy a owl:ObjectProperty ;
+    rdfs:label "owned by"@en,
+        "によって所有される"@ja ;
+    rdfs:domain rec:Architecture ;
+    rdfs:range rec:Agent .
+
+rec:parentDevice a owl:ObjectProperty ;
+    rdfs:label "parent device"@en,
+        "親デバイス"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range gutp:GUTPEquipment .
+
+rec:resourceType a owl:DatatypeProperty ;
+    rdfs:label "resource type"@en,
+        "リソース種別"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+rec:room a owl:DatatypeProperty ;
+    rdfs:label "room"@en,
+        "部屋"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+rec:section a owl:DatatypeProperty ;
+    rdfs:label "section"@en,
+        "セクション"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+rec:serialNumber a owl:DatatypeProperty ;
+    rdfs:label "serial number"@en,
+        "シリアル番号"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+rec:servicedBy a owl:ObjectProperty ;
+    rdfs:label "serviced by"@en,
+        "によってサービスされる"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range gutp:GUTPEquipment .
+
+rec:turnoverDate a owl:DatatypeProperty ;
+    rdfs:label "turnover date"@en,
+        "引渡日"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:date .
+
+rec:weight a owl:DatatypeProperty ;
+    rdfs:label "weight"@en,
+        "重量"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:decimal .
+
+gutp: a owl:Ontology ;
+    owl:versionIRI <https://www.gutp.jp/bim-wg/1.0.0> ;
+    owl:versionInfo "1.0.0" .
+
+gutp:building a owl:DatatypeProperty ;
+    rdfs:label "building"@en,
+        "建物"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+gutp:description a owl:DatatypeProperty ;
+    rdfs:label "description"@en,
+        "説明"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:string .
+
+gutp:device_id a owl:DatatypeProperty ;
+    rdfs:label "device ID"@en,
+        "デバイスID"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+gutp:device_id_bacnet a owl:DatatypeProperty ;
+    rdfs:label "BACnet device ID"@en,
+        "BACnetデバイスID"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:string .
+
+gutp:device_name a owl:DatatypeProperty ;
+    rdfs:label "device name"@en,
+        "デバイス名"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+gutp:device_type a owl:DatatypeProperty ;
+    rdfs:label "device type"@en,
+        "デバイス種別"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+gutp:floor a owl:DatatypeProperty ;
+    rdfs:label "floor"@en,
+        "階"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+gutp:gateway_id a owl:DatatypeProperty ;
+    rdfs:label "gateway ID"@en,
+        "ゲートウェイID"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+gutp:installation_area a owl:DatatypeProperty ;
+    rdfs:label "installation area"@en,
+        "設置エリア"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+gutp:interval a owl:DatatypeProperty ;
+    rdfs:label "interval"@en,
+        "間隔"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:integer .
+
+gutp:labels a owl:DatatypeProperty ;
+    rdfs:label "labels"@en,
+        "ラベル"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:string .
+
+gutp:local_id a owl:DatatypeProperty ;
+    rdfs:label "local ID"@en,
+        "ローカルID"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:string .
+
+gutp:max_pres_value a owl:DatatypeProperty ;
+    rdfs:label "maximum present value"@en,
+        "最大現在値"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:decimal .
+
+gutp:min_pres_value a owl:DatatypeProperty ;
+    rdfs:label "minimum present value"@en,
+        "最小現在値"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:decimal .
+
+gutp:object_id_bacnet a owl:DatatypeProperty ;
+    rdfs:label "BACnet object ID"@en,
+        "BACnetオブジェクトID"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:string .
+
+gutp:object_type_bacnet a owl:DatatypeProperty ;
+    rdfs:label "BACnet object type"@en,
+        "BACnetオブジェクト種別"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:string .
+
+gutp:owner a owl:DatatypeProperty ;
+    rdfs:label "owner"@en,
+        "所有者"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+gutp:panel a owl:DatatypeProperty ;
+    rdfs:label "panel"@en,
+        "制御盤"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+gutp:point_id a owl:DatatypeProperty ;
+    rdfs:label "point ID"@en,
+        "ポイントID"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:string .
+
+gutp:point_specification a owl:DatatypeProperty ;
+    rdfs:label "point specification"@en,
+        "ポイント区分"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:string .
+
+gutp:point_type a owl:DatatypeProperty ;
+    rdfs:label "point type"@en,
+        "ポイント種別"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:string .
+
+gutp:scale a owl:DatatypeProperty ;
+    rdfs:label "scale"@en,
+        "スケール"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:decimal .
+
+gutp:site a owl:DatatypeProperty ;
+    rdfs:label "site"@en,
+        "サイト"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+gutp:supplier a owl:DatatypeProperty ;
+    rdfs:label "supplier"@en,
+        "供給者"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+gutp:tags a owl:DatatypeProperty ;
+    rdfs:label "tags"@en,
+        "タグ"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:string .
+
+gutp:target_area a owl:DatatypeProperty ;
+    rdfs:label "target area"@en,
+        "対象エリア"@ja ;
+    rdfs:domain gutp:GUTPEquipment ;
+    rdfs:range xsd:string .
+
+gutp:unit a owl:DatatypeProperty ;
+    rdfs:label "unit"@en,
+        "単位"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:string .
+
+gutp:writable a owl:DatatypeProperty ;
+    rdfs:label "writable"@en,
+        "書き込み可能"@ja ;
+    rdfs:domain gutp:GUTPPoint ;
+    rdfs:range xsd:boolean .
+
+rec:ArchitectureArea a owl:Class ;
+    rdfs:label "Architecture Area"@en,
+        "建築面積"@ja ;
+    rdfs:comment "Area component for designed/architected spaces."@en,
+        "設計・建築された空間の面積コンポーネント。"@ja ;
+    rdfs:subClassOf owl:Thing .
+
+rec:ArchitectureCapacity a owl:Class ;
+    rdfs:label "Architecture Capacity"@en,
+        "建築容量"@ja ;
+    rdfs:comment "Capacity component for designed/architected spaces."@en,
+        "設計・建築された空間の容量コンポーネント。"@ja ;
+    rdfs:subClassOf owl:Thing .
+
+rec:Building a owl:Class ;
     rdfs:label "Building"@en,
         "建物"@ja ;
-    rdfs:comment "A physical building."@en,
-        "物理的な建物。"@ja ;
-    rdfs:subClassOf ex:SpatialElement ;
-    owl:equivalentClass rec:Building .
+    rdfs:comment "A physical building structure."@en,
+        "物理的な建物構造。"@ja ;
+    rdfs:subClassOf rec:Architecture .
 
-ex:Floor a owl:Class ;
-    rdfs:label "Floor"@en,
-        "フロア"@ja ;
-    rdfs:subClassOf ex:SpatialElement .
-
-ex:SpatialElement a owl:Class ;
-    rdfs:label "Spatial Element"@en,
-        "空間要素"@ja ;
-    rdfs:comment "Abstract spatial element."@en,
-        "空間に関する抽象クラス。"@ja ;
+rec:Document a owl:Class ;
+    rdfs:label "Document"@en,
+        "文書"@ja ;
+    rdfs:comment "Documentation linked to architectural spaces."@en,
+        "建築空間にリンクされた文書。"@ja ;
     rdfs:subClassOf owl:Thing .
+
+rec:Geometry a owl:Class ;
+    rdfs:label "Geometry"@en,
+        "幾何"@ja ;
+    rdfs:comment "Geometric representation of spatial extent."@en,
+        "空間範囲の幾何学的表現。"@ja ;
+    rdfs:subClassOf owl:Thing .
+
+rec:Georeference a owl:Class ;
+    rdfs:label "Georeference"@en,
+        "地理参照"@ja ;
+    rdfs:comment "Geographic coordinate system reference."@en,
+        "地理座標系の参照。"@ja ;
+    rdfs:subClassOf owl:Thing .
+
+rec:Level a owl:Class ;
+    rdfs:label "Level"@en,
+        "階層"@ja ;
+    rdfs:comment "A level or storey within a building."@en,
+        "建物内の階層またはレベル。"@ja ;
+    rdfs:subClassOf rec:Architecture .
+
+rec:Point a owl:Class ;
+    rdfs:label "Point"@en,
+        "ポイント"@ja ;
+    rdfs:comment "Data or control point associated with architecture."@en,
+        "建築に関連するデータまたは制御ポイント。"@ja ;
+    rdfs:subClassOf owl:Thing .
+
+rec:PostalAddress a owl:Class ;
+    rdfs:label "Postal Address"@en,
+        "住所"@ja ;
+    rdfs:comment "A postal address for physical location."@en,
+        "物理的な場所の住所。"@ja ;
+    rdfs:subClassOf owl:Thing .
+
+rec:BuildingElement a owl:Class ;
+    rdfs:label "Building Element"@en,
+        "建築要素"@ja ;
+    rdfs:comment "Physical building component or element."@en,
+        "物理的な建築構成要素または要素。"@ja ;
+    rdfs:subClassOf owl:Thing .
+
+rec:Agent a owl:Class ;
+    rdfs:label "Agent"@en,
+        "エージェント"@ja ;
+    rdfs:comment "An agent responsible for architecture activities (architect, constructor, operator, owner)."@en,
+        "建築活動を担当するエージェント（設計者、建設者、運営者、所有者）。"@ja ;
+    rdfs:subClassOf owl:Thing .
+
+rec:Asset a owl:Class ;
+    rdfs:label "Asset"@en,
+        "資産"@ja ;
+    rdfs:comment "A physical or logical asset."@en,
+        "物理的または論理的な資産。"@ja ;
+    rdfs:subClassOf owl:Thing ;
+    owl:equivalentClass brick1:Equipment .
+
+rec:Space a owl:Class ;
+    rdfs:label "Space"@en,
+        "空間"@ja ;
+    rdfs:comment "A spatial element that can contain other spaces or assets."@en,
+        "他の空間や資産を含むことができる空間要素。"@ja ;
+    rdfs:subClassOf owl:Thing ;
+    owl:equivalentClass brick1:Location .
+
+rec:Substance a owl:Class ;
+    rdfs:label "Substance"@en,
+        "物質"@ja ;
+    rdfs:comment "A substance that can feed architectural spaces."@en,
+        "建築空間を供給できる物質。"@ja ;
+    rdfs:subClassOf owl:Thing .
+
+gutp:Space a owl:Class ;
+    rdfs:label "GUTP Space"@en,
+        "GUTP空間"@ja ;
+    rdfs:comment "Extended spatial element for GUTP system with comprehensive metadata support."@en,
+        "包括的なメタデータサポートを持つGUTPシステム用拡張空間要素。"@ja ;
+    rdfs:subClassOf rec:Space .
+
+rec:Architecture a owl:Class ;
+    rdfs:label "Architecture"@en,
+        "建築"@ja ;
+    rdfs:comment "Architectural space with design and construction metadata."@en,
+        "設計と建設メタデータを持つ建築空間。"@ja ;
+    rdfs:subClassOf gutp:Space .
+
+gutp:GUTPPoint a owl:Class ;
+    rdfs:label "GUTP Point"@en,
+        "GUTPポイント"@ja ;
+    rdfs:comment "A data point in GUTP system that represents measurement or control signal."@en,
+        "測定値や制御信号を表すGUTPシステム内のデータポイント。"@ja ;
+    rdfs:subClassOf owl:Thing .
+
+gutp:GUTPEquipment a owl:Class ;
+    rdfs:label "GUTP Equipment"@en,
+        "GUTP機器"@ja ;
+    rdfs:comment "IoT equipment or device in GUTP system."@en,
+        "GUTPシステム内のIoT機器またはデバイス。"@ja ;
+    rdfs:subClassOf rec:Asset .
 

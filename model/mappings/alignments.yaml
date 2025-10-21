@@ -1,6 +1,80 @@
+# REC and Brick Ontology Alignments
 equivalentClass:
-  - source: ex:Building
-    target: rec:Building
+  - source: rec:Space
+    target: brick:Location
+    comment: "REC Space aligns with Brick Location"
+  - source: rec:Asset
+    target: brick:Equipment
+    comment: "REC Asset is equivalent to Brick Equipment"
+  - source: rec:MeasurementPoint
+    target: brick:Point
+    comment: "REC MeasurementPoint aligns with Brick Point"
+
 equivalentProperty:
-  - source: ex:buildingName
-    target: rec:name
+  - source: rec:name
+    target: rdfs:label
+    comment: "REC name maps to standard RDFS label"
+  - source: rec:hasPart
+    target: brick:hasPart
+    comment: "REC hasPart aligns with Brick hasPart"
+  - source: rec:locatedIn
+    target: brick:isLocationOf
+    comment: "REC locatedIn corresponds to Brick location relationship"
+
+# UDMI to REC Property Mappings
+udmiMappings:
+  - udmi: "system.serial_no"
+    rec: "ex:serialNumber"
+    comment: "UDMI serial number maps to asset serial number"
+  - udmi: "physical_tag.asset.guid"
+    rec: "ex:assetTag"
+    comment: "UDMI asset GUID maps to asset tag"
+  - udmi: "system.hardware.make"
+    rec: "ex:manufacturedBy"
+    comment: "UDMI hardware make maps to manufacturer"
+  - udmi: "system.hardware.model"
+    rec: "ex:modelNumber"
+    comment: "UDMI hardware model maps to model number"
+  - udmi: "system.location.coordinates"
+    rec: "geo:lat, geo:long"
+    comment: "UDMI coordinates map to WGS84 coordinates"
+  - udmi: "system.description"
+    rec: "rec:name"
+    comment: "UDMI description maps to REC name"
+
+# Digital Twin Model Interface (DTMI) Mappings
+dtmiMappings:
+  - dtmi: "dtmi:ex:site"
+    rec: "rec:Site"
+    comment: "DTMI site maps to REC Site"
+  - dtmi: "dtmi:ex:building"
+    rec: "rec:Building"
+    comment: "DTMI building maps to REC Building"
+  - dtmi: "dtmi:ex:space"
+    rec: "rec:Space"
+    comment: "DTMI space maps to REC Space"
+  - dtmi: "dtmi:ex:asset"
+    rec: "rec:Asset"
+    comment: "DTMI asset maps to REC Asset"
+  - dtmi: "dtmi:ex:point"
+    rec: "brick:Point"
+    comment: "DTMI point maps to Brick Point"
+
+# External Vocabulary Mappings
+externalMappings:
+  - source: "sdo:name"
+    target: "rec:name"
+    vocabulary: "Schema.org"
+    comment: "Schema.org name aligns with REC name"
+  - source: "dcterms:title"
+    target: "rec:name"
+    vocabulary: "Dublin Core"
+    comment: "Dublin Core title aligns with REC name"
+  - source: "geo:lat"
+    target: "rec:latitude"
+    vocabulary: "WGS84 Geo Positioning"
+    comment: "WGS84 latitude for geographic positioning"
+  - source: "geo:long"
+    target: "rec:longitude"
+    vocabulary: "WGS84 Geo Positioning"
+    comment: "WGS84 longitude for geographic positioning"

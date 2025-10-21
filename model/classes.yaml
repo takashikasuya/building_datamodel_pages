@@ -1,18 +1,188 @@
-- id: ex:SpatialElement
-  label: { en: "Spatial Element", ja: "空間要素" }
-  comment: { en: "Abstract spatial element.", ja: "空間に関する抽象クラス。" }
+# Spatial Classes (REC-based)
+- id: rec:Space
+  label: { en: "Space", ja: "空間" }
+  comment: { en: "A spatial element that can contain other spaces or assets.", ja: "他の空間や資産を含むことができる空間要素。" }
   subclassOf: [ owl:Thing ]
-  tags: ["core"]
+  tags: ["rec", "spatial", "core"]
 
-- id: ex:Building
+# GUTP Extended Space Classes
+- id: gutp:Space
+  label: { en: "GUTP Space", ja: "GUTP空間" }
+  comment: { en: "Extended spatial element for GUTP system with comprehensive metadata support.", ja: "包括的なメタデータサポートを持つGUTPシステム用拡張空間要素。" }
+  subclassOf: [ rec:Space ]
+  tags: ["gutp", "spatial", "extended"]
+
+# Architecture Classes (REC Architecture hierarchy)
+- id: rec:Architecture
+  label: { en: "Architecture", ja: "建築" }
+  comment: { en: "Architectural space with design and construction metadata.", ja: "設計と建設メタデータを持つ建築空間。" }
+  subclassOf: [ gutp:Space ]
+  tags: ["rec", "architecture"]
+
+- id: rec:Site
+  label: { en: "Site", ja: "サイト" }
+  comment: { en: "A site that contains buildings and other facilities.", ja: "建物やその他の施設を含むサイト。" }
+  subclassOf: [ rec:Architecture ]
+  tags: ["rec", "spatial"]
+
+- id: rec:Building  
   label: { en: "Building", ja: "建物" }
-  comment: { en: "A physical building.", ja: "物理的な建物。" }
-  subclassOf: [ ex:SpatialElement ]
+  comment: { en: "A physical building structure.", ja: "物理的な建物構造。" }
+  subclassOf: [ rec:Architecture ]
+  tags: ["rec", "spatial"]
 
-- id: ex:Floor
-  label: { en: "Floor", ja: "フロア" }
-  subclassOf: [ ex:SpatialElement ]
+- id: rec:SubBuilding
+  label: { en: "Sub Building", ja: "副建物" }
+  comment: { en: "A sub-building within a larger building complex.", ja: "大きな建物複合体内の副建物。" }
+  subclassOf: [ rec:Architecture ]
+  tags: ["rec", "spatial"]
 
-- id: ex:Room
+- id: rec:Level
+  label: { en: "Level", ja: "階層" }
+  comment: { en: "A level or storey within a building.", ja: "建物内の階層またはレベル。" }
+  subclassOf: [ rec:Architecture ]
+  tags: ["rec", "spatial"]
+
+- id: rec:Room
   label: { en: "Room", ja: "部屋" }
-  subclassOf: [ ex:SpatialElement ]
+  comment: { en: "A room or enclosed space within a building.", ja: "建物内の部屋または囲まれた空間。" }
+  subclassOf: [ rec:Architecture ]
+  tags: ["rec", "spatial"]
+
+- id: rec:Zone
+  label: { en: "Zone", ja: "ゾーン" }
+  comment: { en: "A functional zone within a building or site.", ja: "建物またはサイト内の機能的ゾーン。" }
+  subclassOf: [ rec:Architecture ]
+  tags: ["rec", "spatial"]
+
+- id: rec:OutdoorSpace
+  label: { en: "Outdoor Space", ja: "屋外空間" }
+  comment: { en: "An outdoor architectural space.", ja: "屋外の建築空間。" }
+  subclassOf: [ rec:Architecture ]
+  tags: ["rec", "spatial", "outdoor"]
+
+# Region Classes
+- id: rec:Region
+  label: { en: "Region", ja: "地域" }
+  comment: { en: "A geographic or administrative region.", ja: "地理的または行政的地域。" }
+  subclassOf: [ gutp:Space ]
+  tags: ["rec", "spatial", "region"]
+
+# Supporting Classes for REC Spatial Metadata
+- id: rec:PostalAddress
+  label: { en: "Postal Address", ja: "住所" }
+  comment: { en: "A postal address for physical location.", ja: "物理的な場所の住所。" }
+  subclassOf: [ owl:Thing ]
+  tags: ["rec", "address"]
+
+- id: rec:Agent
+  label: { en: "Agent", ja: "エージェント" }
+  comment: { en: "An agent responsible for architecture activities (architect, constructor, operator, owner).", ja: "建築活動を担当するエージェント（設計者、建設者、運営者、所有者）。" }
+  subclassOf: [ owl:Thing ]
+  tags: ["rec", "agent"]
+
+- id: rec:Document
+  label: { en: "Document", ja: "文書" }
+  comment: { en: "Documentation linked to architectural spaces.", ja: "建築空間にリンクされた文書。" }
+  subclassOf: [ owl:Thing ]
+  tags: ["rec", "documentation"]
+
+- id: rec:Geometry
+  label: { en: "Geometry", ja: "幾何" }
+  comment: { en: "Geometric representation of spatial extent.", ja: "空間範囲の幾何学的表現。" }
+  subclassOf: [ owl:Thing ]
+  tags: ["rec", "geometry"]
+
+- id: rec:Georeference
+  label: { en: "Georeference", ja: "地理参照" }
+  comment: { en: "Geographic coordinate system reference.", ja: "地理座標系の参照。" }
+  subclassOf: [ owl:Thing ]
+  tags: ["rec", "georeference"]
+
+- id: rec:BuildingElement
+  label: { en: "Building Element", ja: "建築要素" }
+  comment: { en: "Physical building component or element.", ja: "物理的な建築構成要素または要素。" }
+  subclassOf: [ owl:Thing ]
+  tags: ["rec", "building", "element"]
+
+- id: rec:Point
+  label: { en: "Point", ja: "ポイント" }
+  comment: { en: "Data or control point associated with architecture.", ja: "建築に関連するデータまたは制御ポイント。" }
+  subclassOf: [ owl:Thing ]
+  tags: ["rec", "point"]
+
+# Component Classes for Architecture
+- id: rec:ArchitectureArea
+  label: { en: "Architecture Area", ja: "建築面積" }
+  comment: { en: "Area component for designed/architected spaces.", ja: "設計・建築された空間の面積コンポーネント。" }
+  subclassOf: [ owl:Thing ]
+  tags: ["rec", "architecture", "component"]
+
+- id: rec:ArchitectureCapacity
+  label: { en: "Architecture Capacity", ja: "建築容量" }
+  comment: { en: "Capacity component for designed/architected spaces.", ja: "設計・建築された空間の容量コンポーネント。" }
+  subclassOf: [ owl:Thing ]
+  tags: ["rec", "architecture", "component"]
+
+# Substance Classes (REC Enumeration)
+- id: rec:Substance
+  label: { en: "Substance", ja: "物質" }
+  comment: { en: "A substance that can feed architectural spaces.", ja: "建築空間を供給できる物質。" }
+  subclassOf: [ owl:Thing ]
+  tags: ["rec", "substance"]
+
+- id: rec:ACElec
+  label: { en: "AC Electricity", ja: "交流電気" }
+  subclassOf: [ rec:Substance ]
+  tags: ["rec", "substance", "electricity"]
+
+- id: rec:Air
+  label: { en: "Air", ja: "空気" }
+  subclassOf: [ rec:Substance ]
+  tags: ["rec", "substance", "air"]
+
+- id: rec:Water
+  label: { en: "Water", ja: "水" }
+  subclassOf: [ rec:Substance ]
+  tags: ["rec", "substance", "water"]
+
+- id: rec:ChilledWater
+  label: { en: "Chilled Water", ja: "冷水" }
+  subclassOf: [ rec:Substance ]
+  tags: ["rec", "substance", "water"]
+
+- id: rec:HotWater
+  label: { en: "Hot Water", ja: "温水" }
+  subclassOf: [ rec:Substance ]
+  tags: ["rec", "substance", "water"]
+
+- id: rec:Steam
+  label: { en: "Steam", ja: "蒸気" }
+  subclassOf: [ rec:Substance ]
+  tags: ["rec", "substance", "steam"]
+
+- id: rec:NaturalGas
+  label: { en: "Natural Gas", ja: "天然ガス" }
+  subclassOf: [ rec:Substance ]
+  tags: ["rec", "substance", "gas"]
+
+# Equipment Classes
+- id: gutp:GUTPEquipment
+  label: { en: "GUTP Equipment", ja: "GUTP機器" }
+  comment: { en: "IoT equipment or device in GUTP system.", ja: "GUTPシステム内のIoT機器またはデバイス。" }
+  subclassOf: [ rec:Asset ]
+  tags: ["gutp", "equipment", "iot"]
+
+# Point Classes  
+- id: gutp:GUTPPoint
+  label: { en: "GUTP Point", ja: "GUTPポイント" }
+  comment: { en: "A data point in GUTP system that represents measurement or control signal.", ja: "測定値や制御信号を表すGUTPシステム内のデータポイント。" }
+  subclassOf: [ owl:Thing ]
+  tags: ["gutp", "point", "iot"]
+
+# Asset Classes
+- id: rec:Asset
+  label: { en: "Asset", ja: "資産" }
+  comment: { en: "A physical or logical asset.", ja: "物理的または論理的な資産。" }
+  subclassOf: [ owl:Thing ]
+  tags: ["rec", "asset"]

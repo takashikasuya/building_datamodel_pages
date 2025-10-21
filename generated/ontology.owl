@@ -4,60 +4,847 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
 >
-  <rdf:Description rdf:about="https://example.org/ontology/Room">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:subClassOf rdf:resource="https://example.org/ontology/SpatialElement"/>
-    <rdfs:label xml:lang="en">Room</rdfs:label>
-    <rdfs:label xml:lang="ja">部屋</rdfs:label>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://example.org/ontology/hasFloor">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="https://example.org/ontology/Building"/>
-    <rdfs:range rdf:resource="https://example.org/ontology/Floor"/>
-    <rdfs:label xml:lang="en">has floor</rdfs:label>
-    <rdfs:label xml:lang="ja">フロアを持つ</rdfs:label>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://example.org/ontology/">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
-    <owl:versionIRI rdf:resource="https://example.org/ontology/1.0.0"/>
-    <owl:versionInfo>1.0.0</owl:versionInfo>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://example.org/ontology/hasRoom">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="https://example.org/ontology/Floor"/>
-    <rdfs:range rdf:resource="https://example.org/ontology/Room"/>
-    <rdfs:label xml:lang="en">has room</rdfs:label>
-    <rdfs:label xml:lang="ja">部屋を持つ</rdfs:label>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://example.org/ontology/Building">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:subClassOf rdf:resource="https://example.org/ontology/SpatialElement"/>
-    <rdfs:label xml:lang="en">Building</rdfs:label>
-    <rdfs:label xml:lang="ja">建物</rdfs:label>
-    <rdfs:comment xml:lang="en">A physical building.</rdfs:comment>
-    <rdfs:comment xml:lang="ja">物理的な建物。</rdfs:comment>
-    <owl:equivalentClass rdf:resource="https://w3id.org/rec#Building"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://example.org/ontology/Floor">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:subClassOf rdf:resource="https://example.org/ontology/SpatialElement"/>
-    <rdfs:label xml:lang="en">Floor</rdfs:label>
-    <rdfs:label xml:lang="ja">フロア</rdfs:label>
-  </rdf:Description>
-  <rdf:Description rdf:about="https://example.org/ontology/SpatialElement">
+  <rdf:Description rdf:about="https://w3id.org/rec#Asset">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
     <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-    <rdfs:label xml:lang="en">Spatial Element</rdfs:label>
-    <rdfs:label xml:lang="ja">空間要素</rdfs:label>
-    <rdfs:comment xml:lang="en">Abstract spatial element.</rdfs:comment>
-    <rdfs:comment xml:lang="ja">空間に関する抽象クラス。</rdfs:comment>
+    <rdfs:label xml:lang="en">Asset</rdfs:label>
+    <rdfs:label xml:lang="ja">資産</rdfs:label>
+    <rdfs:comment xml:lang="en">A physical or logical asset.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">物理的または論理的な資産。</rdfs:comment>
+    <owl:equivalentClass rdf:resource="https://brickschema.org/schema/1.4/Brick#Equipment"/>
   </rdf:Description>
-  <rdf:Description rdf:about="https://example.org/ontology/buildingName">
+  <rdf:Description rdf:about="https://w3id.org/rec#lastErrorTime">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="https://example.org/ontology/Building"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:label xml:lang="en">last error time</rdfs:label>
+    <rdfs:label xml:lang="ja">最終エラー時刻</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#IPAddress">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label xml:lang="en">building name</rdfs:label>
-    <rdfs:label xml:lang="ja">建物名</rdfs:label>
-    <owl:equivalentProperty rdf:resource="https://w3id.org/rec#name"/>
+    <rdfs:label xml:lang="en">IP address</rdfs:label>
+    <rdfs:label xml:lang="ja">IPアドレス</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#geometry">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#Space"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#Geometry"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">geometry</rdfs:label>
+    <rdfs:label xml:lang="ja">幾何</rdfs:label>
+    <rdfs:label xml:lang="ja">座標</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#isPartOf">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Space"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Asset"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#Space"/>
+    <rdfs:label xml:lang="en">is part of</rdfs:label>
+    <rdfs:label xml:lang="ja">の部分である</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#documentation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">documentation</rdfs:label>
+    <rdfs:label xml:lang="ja">文書</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#owner">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">owner</rdfs:label>
+    <rdfs:label xml:lang="ja">所有者</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#maintenanceInterval">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#duration"/>
+    <rdfs:label xml:lang="en">maintenance interval</rdfs:label>
+    <rdfs:label xml:lang="ja">メンテ周期</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#parentDevice">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:label xml:lang="en">parent device</rdfs:label>
+    <rdfs:label xml:lang="ja">親デバイス</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#constructedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#Agent"/>
+    <rdfs:label xml:lang="en">constructed by</rdfs:label>
+    <rdfs:label xml:lang="ja">によって建設された</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#identifiers">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#Space"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">identifiers</rdfs:label>
+    <rdfs:label xml:lang="ja">識別子</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Document">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="en">Document</rdfs:label>
+    <rdfs:label xml:lang="ja">文書</rdfs:label>
+    <rdfs:comment xml:lang="en">Documentation linked to architectural spaces.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">建築空間にリンクされた文書。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#cloudAuthType">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">cloud auth type</rdfs:label>
+    <rdfs:label xml:lang="ja">クラウド認証タイプ</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Zone">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:label xml:lang="en">Zone</rdfs:label>
+    <rdfs:label xml:lang="ja">ゾーン</rdfs:label>
+    <rdfs:comment xml:lang="en">A functional zone within a building or site.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">建物またはサイト内の機能的ゾーン。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Point">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="en">Point</rdfs:label>
+    <rdfs:label xml:lang="ja">ポイント</rdfs:label>
+    <rdfs:comment xml:lang="en">Data or control point associated with architecture.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">建築に関連するデータまたは制御ポイント。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#unit">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">unit</rdfs:label>
+    <rdfs:label xml:lang="ja">単位</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Level">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:label xml:lang="en">Level</rdfs:label>
+    <rdfs:label xml:lang="ja">階層</rdfs:label>
+    <rdfs:comment xml:lang="en">A level or storey within a building.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">建物内の階層またはレベル。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#capacity">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#ArchitectureCapacity"/>
+    <rdfs:label xml:lang="en">capacity</rdfs:label>
+    <rdfs:label xml:lang="ja">容量</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#manufacturedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">manufactured by</rdfs:label>
+    <rdfs:label xml:lang="ja">製造者</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#SubBuilding">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:label xml:lang="en">Sub Building</rdfs:label>
+    <rdfs:label xml:lang="ja">副建物</rdfs:label>
+    <rdfs:comment xml:lang="en">A sub-building within a larger building complex.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">大きな建物複合体内の副建物。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#locatedIn">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Asset"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#Space"/>
+    <rdfs:label xml:lang="en">located in</rdfs:label>
+    <rdfs:label xml:lang="ja">に位置する</rdfs:label>
+    <owl:equivalentProperty rdf:resource="https://brickschema.org/schema/1.4/Brick#isLocationOf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Building">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:label xml:lang="en">Building</rdfs:label>
+    <rdfs:label xml:lang="ja">建物</rdfs:label>
+    <rdfs:comment xml:lang="en">A physical building structure.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">物理的な建物構造。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#gateway_id">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">gateway ID</rdfs:label>
+    <rdfs:label xml:lang="ja">ゲートウェイID</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#hasPart">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Space"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#Space"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#Asset"/>
+    <rdfs:label xml:lang="en">has part</rdfs:label>
+    <rdfs:label xml:lang="ja">部分を持つ</rdfs:label>
+    <owl:equivalentProperty rdf:resource="https://brickschema.org/schema/1.4/Brick#hasPart"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#BuildingElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="en">Building Element</rdfs:label>
+    <rdfs:label xml:lang="ja">建築要素</rdfs:label>
+    <rdfs:comment xml:lang="en">Physical building component or element.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">物理的な建築構成要素または要素。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#lastConfigTime">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:label xml:lang="en">last config time</rdfs:label>
+    <rdfs:label xml:lang="ja">最終設定時刻</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#cloudUpdatedTime">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:label xml:lang="en">cloud updated time</rdfs:label>
+    <rdfs:label xml:lang="ja">クラウド更新時刻</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Air">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Substance"/>
+    <rdfs:label xml:lang="en">Air</rdfs:label>
+    <rdfs:label xml:lang="ja">空気</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Georeference">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="en">Georeference</rdfs:label>
+    <rdfs:label xml:lang="ja">地理参照</rdfs:label>
+    <rdfs:comment xml:lang="en">Geographic coordinate system reference.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">地理座標系の参照。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#customTags">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#Space"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">custom tags</rdfs:label>
+    <rdfs:label xml:lang="ja">カスタムタグ</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#MACAddress">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">MAC address</rdfs:label>
+    <rdfs:label xml:lang="ja">MACアドレス</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#georeference">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#Space"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#Georeference"/>
+    <rdfs:label xml:lang="en">georeference</rdfs:label>
+    <rdfs:label xml:lang="ja">地理参照</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#adjacentElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#BuildingElement"/>
+    <rdfs:label xml:lang="en">adjacent element</rdfs:label>
+    <rdfs:label xml:lang="ja">隣接要素</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#installationDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:label xml:lang="en">installation date</rdfs:label>
+    <rdfs:label xml:lang="ja">設置日</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#address">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Building"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#PostalAddress"/>
+    <rdfs:label xml:lang="en">address</rdfs:label>
+    <rdfs:label xml:lang="ja">住所</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#GUTPEquipment">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Asset"/>
+    <rdfs:label xml:lang="en">GUTP Equipment</rdfs:label>
+    <rdfs:label xml:lang="ja">GUTP機器</rdfs:label>
+    <rdfs:comment xml:lang="en">IoT equipment or device in GUTP system.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">GUTPシステム内のIoT機器またはデバイス。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#GUTPPoint">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="en">GUTP Point</rdfs:label>
+    <rdfs:label xml:lang="ja">GUTPポイント</rdfs:label>
+    <rdfs:comment xml:lang="en">A data point in GUTP system that represents measurement or control signal.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">測定値や制御信号を表すGUTPシステム内のデータポイント。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#building">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">building</rdfs:label>
+    <rdfs:label xml:lang="ja">建物</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#servicedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:label xml:lang="en">serviced by</rdfs:label>
+    <rdfs:label xml:lang="ja">によってサービスされる</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#containsElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#BuildingElement"/>
+    <rdfs:label xml:lang="en">contains element</rdfs:label>
+    <rdfs:label xml:lang="ja">要素を含む</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#lastStateTime">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:label xml:lang="en">last state time</rdfs:label>
+    <rdfs:label xml:lang="ja">最終状態時刻</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#device_id">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">device ID</rdfs:label>
+    <rdfs:label xml:lang="ja">デバイスID</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#serialNumber">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">serial number</rdfs:label>
+    <rdfs:label xml:lang="ja">シリアル番号</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#installation_area">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">installation area</rdfs:label>
+    <rdfs:label xml:lang="ja">設置エリア</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#PostalAddress">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="en">Postal Address</rdfs:label>
+    <rdfs:label xml:lang="ja">住所</rdfs:label>
+    <rdfs:comment xml:lang="en">A postal address for physical location.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">物理的な場所の住所。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#mountedOn">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:label xml:lang="en">mounted on</rdfs:label>
+    <rdfs:label xml:lang="ja">に取り付けられる</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#OutdoorSpace">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:label xml:lang="en">Outdoor Space</rdfs:label>
+    <rdfs:label xml:lang="ja">屋外空間</rdfs:label>
+    <rdfs:comment xml:lang="en">An outdoor architectural space.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">屋外の建築空間。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Room">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:label xml:lang="en">Room</rdfs:label>
+    <rdfs:label xml:lang="ja">部屋</rdfs:label>
+    <rdfs:comment xml:lang="en">A room or enclosed space within a building.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">建物内の部屋または囲まれた空間。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#writable">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:label xml:lang="en">writable</rdfs:label>
+    <rdfs:label xml:lang="ja">書き込み可能</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#NaturalGas">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Substance"/>
+    <rdfs:label xml:lang="en">Natural Gas</rdfs:label>
+    <rdfs:label xml:lang="ja">天然ガス</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Substance">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="en">Substance</rdfs:label>
+    <rdfs:label xml:lang="ja">物質</rdfs:label>
+    <rdfs:comment xml:lang="en">A substance that can feed architectural spaces.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">建築空間を供給できる物質。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#description">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">description</rdfs:label>
+    <rdfs:label xml:lang="ja">説明</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Site">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:label xml:lang="en">Site</rdfs:label>
+    <rdfs:label xml:lang="ja">サイト</rdfs:label>
+    <rdfs:comment xml:lang="en">A site that contains buildings and other facilities.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">建物やその他の施設を含むサイト。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#object_id_bacnet">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">BACnet object ID</rdfs:label>
+    <rdfs:label xml:lang="ja">BACnetオブジェクトID</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Steam">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Substance"/>
+    <rdfs:label xml:lang="en">Steam</rdfs:label>
+    <rdfs:label xml:lang="ja">蒸気</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#max_pres_value">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label xml:lang="en">maximum present value</rdfs:label>
+    <rdfs:label xml:lang="ja">最大現在値</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Agent">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="en">Agent</rdfs:label>
+    <rdfs:label xml:lang="ja">エージェント</rdfs:label>
+    <rdfs:comment xml:lang="en">An agent responsible for architecture activities (architect, constructor, operator, owner).</rdfs:comment>
+    <rdfs:comment xml:lang="ja">建築活動を担当するエージェント（設計者、建設者、運営者、所有者）。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#architectedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#Agent"/>
+    <rdfs:label xml:lang="en">architected by</rdfs:label>
+    <rdfs:label xml:lang="ja">によって設計された</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Geometry">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="en">Geometry</rdfs:label>
+    <rdfs:label xml:lang="ja">幾何</rdfs:label>
+    <rdfs:comment xml:lang="en">Geometric representation of spatial extent.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">空間範囲の幾何学的表現。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#ACElec">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Substance"/>
+    <rdfs:label xml:lang="en">AC Electricity</rdfs:label>
+    <rdfs:label xml:lang="ja">交流電気</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Architecture">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://www.gutp.jp/bim-wg#Space"/>
+    <rdfs:label xml:lang="en">Architecture</rdfs:label>
+    <rdfs:label xml:lang="ja">建築</rdfs:label>
+    <rdfs:comment xml:lang="en">Architectural space with design and construction metadata.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">設計と建設メタデータを持つ建築空間。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#Space">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Space"/>
+    <rdfs:label xml:lang="en">GUTP Space</rdfs:label>
+    <rdfs:label xml:lang="ja">GUTP空間</rdfs:label>
+    <rdfs:comment xml:lang="en">Extended spatial element for GUTP system with comprehensive metadata support.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">包括的なメタデータサポートを持つGUTPシステム用拡張空間要素。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#floor">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">floor</rdfs:label>
+    <rdfs:label xml:lang="ja">階</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#name">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">name</rdfs:label>
+    <rdfs:label xml:lang="ja">名前</rdfs:label>
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#site">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">site</rdfs:label>
+    <rdfs:label xml:lang="ja">サイト</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#tags">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">tags</rdfs:label>
+    <rdfs:label xml:lang="ja">タグ</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#local_id">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">local ID</rdfs:label>
+    <rdfs:label xml:lang="ja">ローカルID</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#localnetInfo">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">local network info</rdfs:label>
+    <rdfs:label xml:lang="ja">ローカルネットワーク情報</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#deviceKey">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">device key</rdfs:label>
+    <rdfs:label xml:lang="ja">デバイスキー</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+    <owl:versionIRI rdf:resource="https://www.gutp.jp/bim-wg/1.0.0"/>
+    <owl:versionInfo>1.0.0</owl:versionInfo>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#scale">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label xml:lang="en">scale</rdfs:label>
+    <rdfs:label xml:lang="ja">スケール</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#isFedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:label xml:lang="en">is fed by</rdfs:label>
+    <rdfs:label xml:lang="ja">から供給される</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#initialCost">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label xml:lang="en">initial cost</rdfs:label>
+    <rdfs:label xml:lang="ja">初期コスト</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#labels">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">labels</rdfs:label>
+    <rdfs:label xml:lang="ja">ラベル</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#ownedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#Agent"/>
+    <rdfs:label xml:lang="en">owned by</rdfs:label>
+    <rdfs:label xml:lang="ja">によって所有される</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#panel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">panel</rdfs:label>
+    <rdfs:label xml:lang="ja">制御盤</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#room">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">room</rdfs:label>
+    <rdfs:label xml:lang="ja">部屋</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#area">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#ArchitectureArea"/>
+    <rdfs:label xml:lang="en">area</rdfs:label>
+    <rdfs:label xml:lang="ja">面積</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#point_specification">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">point specification</rdfs:label>
+    <rdfs:label xml:lang="ja">ポイント区分</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#min_pres_value">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label xml:lang="en">minimum present value</rdfs:label>
+    <rdfs:label xml:lang="ja">最小現在値</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#interval">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label xml:lang="en">interval</rdfs:label>
+    <rdfs:label xml:lang="ja">間隔</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#ChilledWater">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Substance"/>
+    <rdfs:label xml:lang="en">Chilled Water</rdfs:label>
+    <rdfs:label xml:lang="ja">冷水</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#gatewayAddress">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">gateway address</rdfs:label>
+    <rdfs:label xml:lang="ja">ゲートウェイアドレス</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#levelNumber">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Level"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label xml:lang="en">level number</rdfs:label>
+    <rdfs:label xml:lang="ja">階数</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#intersectingElement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#BuildingElement"/>
+    <rdfs:label xml:lang="en">intersecting element</rdfs:label>
+    <rdfs:label xml:lang="ja">交差要素</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Region">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://www.gutp.jp/bim-wg#Space"/>
+    <rdfs:label xml:lang="en">Region</rdfs:label>
+    <rdfs:label xml:lang="ja">地域</rdfs:label>
+    <rdfs:comment xml:lang="en">A geographic or administrative region.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">地理的または行政的地域。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#HotWater">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Substance"/>
+    <rdfs:label xml:lang="en">Hot Water</rdfs:label>
+    <rdfs:label xml:lang="ja">温水</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#operatedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#Agent"/>
+    <rdfs:label xml:lang="en">operated by</rdfs:label>
+    <rdfs:label xml:lang="ja">によって運営される</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#ArchitectureCapacity">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="en">Architecture Capacity</rdfs:label>
+    <rdfs:label xml:lang="ja">建築容量</rdfs:label>
+    <rdfs:comment xml:lang="en">Capacity component for designed/architected spaces.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">設計・建築された空間の容量コンポーネント。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Space">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="en">Space</rdfs:label>
+    <rdfs:label xml:lang="ja">空間</rdfs:label>
+    <rdfs:comment xml:lang="en">A spatial element that can contain other spaces or assets.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">他の空間や資産を含むことができる空間要素。</rdfs:comment>
+    <owl:equivalentClass rdf:resource="https://brickschema.org/schema/1.4/Brick#Location"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#customProperties">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#Space"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">custom properties</rdfs:label>
+    <rdfs:label xml:lang="ja">カスタムプロパティ</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#commissioningDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:label xml:lang="en">commissioning date</rdfs:label>
+    <rdfs:label xml:lang="ja">試運転開始日</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#point_type">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">point type</rdfs:label>
+    <rdfs:label xml:lang="ja">ポイント種別</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#device_id_bacnet">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">BACnet device ID</rdfs:label>
+    <rdfs:label xml:lang="ja">BACnetデバイスID</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#assetTag">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">asset tag</rdfs:label>
+    <rdfs:label xml:lang="ja">資産タグ</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#resourceType">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">resource type</rdfs:label>
+    <rdfs:label xml:lang="ja">リソース種別</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#turnoverDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:label xml:lang="en">turnover date</rdfs:label>
+    <rdfs:label xml:lang="ja">引渡日</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#hasPoint">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:range rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#Point"/>
+    <rdfs:label xml:lang="en">has point</rdfs:label>
+    <rdfs:label xml:lang="ja">ポイントを持つ</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#Water">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/rec#Substance"/>
+    <rdfs:label xml:lang="en">Water</rdfs:label>
+    <rdfs:label xml:lang="ja">水</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#weight">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label xml:lang="en">weight</rdfs:label>
+    <rdfs:label xml:lang="ja">重量</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#isLocationOf">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#Space"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="en">is location of</rdfs:label>
+    <rdfs:label xml:lang="ja">の場所である</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#device_name">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">device name</rdfs:label>
+    <rdfs:label xml:lang="ja">デバイス名</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#feeds">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:label xml:lang="en">feeds</rdfs:label>
+    <rdfs:label xml:lang="ja">供給する</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#isPointOf">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:label xml:lang="en">is point of</rdfs:label>
+    <rdfs:label xml:lang="ja">のポイントである</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#object_type_bacnet">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">BACnet object type</rdfs:label>
+    <rdfs:label xml:lang="ja">BACnetオブジェクト種別</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#device_type">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">device type</rdfs:label>
+    <rdfs:label xml:lang="ja">デバイス種別</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#modelNumber">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">model number</rdfs:label>
+    <rdfs:label xml:lang="ja">型番</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#target_area">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">target area</rdfs:label>
+    <rdfs:label xml:lang="ja">対象エリア</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#isFedBySubstance">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://w3id.org/rec#Architecture"/>
+    <rdfs:range rdf:resource="https://w3id.org/rec#Substance"/>
+    <rdfs:label xml:lang="en">is fed by substance</rdfs:label>
+    <rdfs:label xml:lang="ja">物質によって供給される</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#section">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">section</rdfs:label>
+    <rdfs:label xml:lang="ja">セクション</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#supplier">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">supplier</rdfs:label>
+    <rdfs:label xml:lang="ja">供給者</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://www.gutp.jp/bim-wg#point_id">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPPoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">point ID</rdfs:label>
+    <rdfs:label xml:lang="ja">ポイントID</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#minLogLevel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">minimum log level</rdfs:label>
+    <rdfs:label xml:lang="ja">最小ログレベル</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#ArchitectureArea">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:label xml:lang="en">Architecture Area</rdfs:label>
+    <rdfs:label xml:lang="ja">建築面積</rdfs:label>
+    <rdfs:comment xml:lang="en">Area component for designed/architected spaces.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">設計・建築された空間の面積コンポーネント。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#metricsRate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://www.gutp.jp/bim-wg#GUTPEquipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label xml:lang="en">metrics rate</rdfs:label>
+    <rdfs:label xml:lang="ja">メトリクス頻度</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/rec#MeasurementPoint">
+    <owl:equivalentClass rdf:resource="https://brickschema.org/schema/1.4/Brick#Point"/>
   </rdf:Description>
 </rdf:RDF>

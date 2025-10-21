@@ -1,4 +1,21 @@
-id,type,label_en,label_ja
-ex:HQ,ex:Building,Headquarters,本社
-ex:F1,ex:Floor,First Floor,1階
-ex:R101,ex:Room,Room 101,101号室
+id,type,label_en,label_ja,rec:name,rec:identifiers,rec:customProperties,rec:customTags,rec:levelNumber,rec:architectedBy,rec:constructedBy,rec:operatedBy,rec:ownedBy,gutp:gateway_id,gutp:device_id,gutp:device_name,gutp:device_type,gutp:site,gutp:building,gutp:floor,gutp:installation_area,rec:serialNumber,rec:assetTag,rec:modelNumber,rec:manufacturedBy,rec:documentation,rec:room,rec:section,rec:installationDate,rec:commissioningDate,rec:IPAddress,rec:MACAddress,rec:cloudAuthType,rec:minLogLevel,rec:metricsRate,gutp:point_id,gutp:point_type,gutp:point_specification,gutp:writable,gutp:local_id,gutp:unit
+# Spatial Hierarchy with REC Spatial Metadata
+gutp:TokyoRegion,rec:Region,Tokyo Region,東京地域,Tokyo Metropolitan Region,region_001,"administrative_area:Tokyo,country:Japan","urban:true,metropolitan:true",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gutp:TokyoSite,rec:Site,Tokyo Site,東京サイト,Tokyo Campus,site_001,"site_type:corporate,zone:commercial","secure:true,public_access:false",,Agent_Architect_001,Agent_Constructor_001,Agent_Operator_001,Agent_Owner_001,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gutp:HQBuilding,rec:Building,Headquarters Building,本社ビル,HQ Building,bldg_001,"building_type:office,floors:10","smart_building:true,leed_certified:true",,Agent_Architect_001,Agent_Constructor_001,Agent_Operator_001,Agent_Owner_001,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gutp:L1,rec:Level,Level 1,1階,First Floor,level_001,"ceiling_height:3.5m,fire_rating:A","accessible:true,emergency_exits:4",1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gutp:L2,rec:Level,Level 2,2階,Second Floor,level_002,"ceiling_height:3.5m,fire_rating:A","accessible:true,emergency_exits:4",2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gutp:OfficeRoom101,rec:Room,Office Room 101,オフィス室101,Office 101,room_001,"room_type:office,capacity:4","private:true,conference_enabled:false",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gutp:ConferenceRoom201,rec:Room,Conference Room 201,会議室201,Meeting Room A,room_002,"room_type:conference,capacity:12,av_equipped:true","bookable:true,video_conf:true",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gutp:OpenOfficeZone,rec:Zone,Open Office Zone,オープンオフィスゾーン,Open Office Area,zone_001,"zone_type:workspace,workstations:50","flexible_seating:true,collaborative:true",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gutp:OutdoorPlaza,rec:OutdoorSpace,Outdoor Plaza,屋外プラザ,Central Plaza,outdoor_001,"space_type:plaza,landscaping:modern","public_access:true,events_allowed:true",,Agent_Landscape_001,Agent_Constructor_001,Agent_Operator_001,Agent_Owner_001,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+# Equipment with UDMI Integration
+gutp:MultiSensor_01,gutp:GUTPEquipment,Multi Sensor 01,マルチセンサー01,Multi-Sensor-01,,,,,,,,,GW-001,DEV-MS-001,Multi-Sensor-01,Multi-Sensor,Tokyo Campus,HQ Building,1F,Office 101,MS-SN-2023001,ASSET-MS-001,MSX-100,SensorTech Corp,Multi-sensor for environmental monitoring,Room 101,Section A,2023-06-15,2023-07-01,192.168.1.101,00:1B:44:11:3A:B7,jwt,INFO,300,,,,,,
+gutp:TempPoint_01,gutp:GUTPPoint,Temperature Point 01,温度ポイント01,Temperature Point,,,,,,,,,,,,,,,,,,,,,,,,,TP-001,Temperature,Measurement,false,TS-101,°C
+gutp:HumidityPoint_01,gutp:GUTPPoint,Humidity Point 01,湿度ポイント01,Humidity Point,,,,,,,,,,,,,,,,,,,,,,,,,HP-001,Humidity,Measurement,false,HS-101,%
+gutp:CO2Point_01,gutp:GUTPPoint,CO2 Point 01,CO2ポイント01,CO2 Point,,,,,,,,,,,,,,,,,,,,,,,,,CP-001,CO2,Measurement,false,CS-101,ppm
+gutp:LightingSys_01,gutp:GUTPEquipment,Lighting System 01,照明システム01,Lighting-01,,,,,,,,,GW-001,DEV-LS-001,Lighting-01,LightingSystem,Tokyo Campus,HQ Building,1F,Conference Room A,LS-SN-2023002,ASSET-LS-001,LSX-200,LightCorp Inc,Smart lighting control system,Meeting Room A,Section B,2023-06-20,2023-07-05,192.168.1.102,00:1B:44:11:3A:B8,jwt,INFO,60,,,,,,
+gutp:IllumPoint_01,gutp:GUTPPoint,Illuminance Point 01,照度ポイント01,Illuminance Point,,,,,,,,,,,,,,,,,,,,,,,,,IP-001,Illuminance,Measurement,false,IS-201,lx
+gutp:LightCtrlPoint_01,gutp:GUTPPoint,Light Control Point 01,照明制御ポイント01,Light Control Point,,,,,,,,,,,,,,,,,,,,,,,,,LCP-001,Electricity,Command,true,LC-201,kW
+gutp:Gateway_01,gutp:GUTPEquipment,Gateway 01,ゲートウェイ01,Main-Gateway,,,,,,,,,GW-001,GW-001,Main-Gateway,Gateway,Tokyo Campus,HQ Building,1F,Utility Room,GW-SN-2023003,ASSET-GW-001,GWX-300,GatewayTech Ltd,Main building IoT gateway,Utility Room,Section C,2023-06-10,2023-06-25,192.168.1.100,00:1B:44:11:3A:B6,jwt,DEBUG,30,,,,,,
+gutp:HVAC_AHU_01,gutp:GUTPEquipment,Air Handling Unit 01,空調機01,AHU-Main-01,,,,,,,,,GW-001,DEV-AHU-001,AHU-Main-01,AirHandlingUnit,Tokyo Campus,HQ Building,RF,Mechanical Room,AHU-SN-2023004,ASSET-AHU-001,AHU-5000,HVAC Systems Inc,Main air handling unit for building,Mechanical Room,Section D,2023-05-15,2023-06-01,192.168.1.103,00:1B:44:11:3A:B9,jwt,WARNING,120,,,,,,
