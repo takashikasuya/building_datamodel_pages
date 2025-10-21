@@ -8,15 +8,13 @@ SH = Namespace('http://www.w3.org/ns/shacl#')
 def build(model_dir: str, out_path: str):
     prefixes = load_yaml(f"{model_dir}/prefixes.yaml")
     props = load_yaml(f"{model_dir}/properties.yaml")
-    classes = load_yaml(f"{model_dir}/classes.yaml")
 
     g = Graph()
-    # Bind prefixes
     for k,v in prefixes['prefixes'].items():
         g.bind(k, v)
     g.bind('sh', SH)
 
-    # Node shapes by class (only those appearing in domains)
+    # Node shapes per domain class
     domains_by_prop = {}
     for p in props:
         for d in p.get('domain', []):
@@ -33,24 +31,23 @@ def build(model_dir: str, out_path: str):
             p_ns, p_local = p['id'].split(':',1) if ':' in p['id'] else (None, p['id'])
             prop_uri = URIRef(prefixes['prefixes'][p_ns] + p_local) if p_ns else URIRef(p['id'])
 
-            ps_bnode = g.resource(URIRef(str(shape_uri) + "#" + p_local))
-            g.add((shape_uri, SH.property, ps_bnode.identifier))
-            g.add((ps_bnode.identifier, SH.path, prop_uri))
+            ps = URIRef(str(shape_uri) + "#" + p_local)
+            g.add((shape_uri, SH.property, ps))
+            g.add((ps, SH.path, prop_uri))
 
-            # Range to class/datatype
             for r in p.get('range', []):
                 if r.startswith("xsd:"):
-                    g.add((ps_bnode.identifier, SH.datatype, URIRef(prefixes['prefixes']['xsd'] + r.split(':',1)[1])))
+                    g.add((ps, SH.datatype, URIRef(prefixes['prefixes']['xsd'] + r.split(':',1)[1])))
                 else:
                     r_ns, r_local = r.split(':',1) if ':' in r else (None, r)
                     r_uri = URIRef(prefixes['prefixes'][r_ns] + r_local) if r_ns else URIRef(r)
-                    g.add((ps_bnode.identifier, SH['class'], r_uri))
+                    g.add((ps, SH['class'], r_uri))
 
             cons = p.get('constraints', {})
             if 'minCount' in cons:
-                g.add((ps_bnode.identifier, SH.minCount, Literal(int(cons['minCount']))))
+                g.add((ps, SH.minCount, Literal(int(cons['minCount']))))
             if 'pattern' in cons:
-                g.add((ps_bnode.identifier, SH.pattern, Literal(cons['pattern'])))
+                g.add((ps, SH.pattern, Literal(cons['pattern'])))
 
     Path(out_path).parent.mkdir(parents=True, exist_ok=True)
     write_text(out_path, g.serialize(format='turtle'))

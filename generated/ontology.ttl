@@ -1,0 +1,54 @@
+@prefix ex: <https://example.org/ontology/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rec: <https://w3id.org/rec#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex: a owl:Ontology ;
+    owl:versionIRI ex:1.0.0 ;
+    owl:versionInfo "1.0.0" .
+
+ex:buildingName a owl:DatatypeProperty ;
+    rdfs:label "building name"@en,
+        "建物名"@ja ;
+    rdfs:domain ex:Building ;
+    rdfs:range xsd:string ;
+    owl:equivalentProperty rec:name .
+
+ex:hasFloor a owl:ObjectProperty ;
+    rdfs:label "has floor"@en,
+        "フロアを持つ"@ja ;
+    rdfs:domain ex:Building ;
+    rdfs:range ex:Floor .
+
+ex:hasRoom a owl:ObjectProperty ;
+    rdfs:label "has room"@en,
+        "部屋を持つ"@ja ;
+    rdfs:domain ex:Floor ;
+    rdfs:range ex:Room .
+
+ex:Room a owl:Class ;
+    rdfs:label "Room"@en,
+        "部屋"@ja ;
+    rdfs:subClassOf ex:SpatialElement .
+
+ex:Building a owl:Class ;
+    rdfs:label "Building"@en,
+        "建物"@ja ;
+    rdfs:comment "A physical building."@en,
+        "物理的な建物。"@ja ;
+    rdfs:subClassOf ex:SpatialElement ;
+    owl:equivalentClass rec:Building .
+
+ex:Floor a owl:Class ;
+    rdfs:label "Floor"@en,
+        "フロア"@ja ;
+    rdfs:subClassOf ex:SpatialElement .
+
+ex:SpatialElement a owl:Class ;
+    rdfs:label "Spatial Element"@en,
+        "空間要素"@ja ;
+    rdfs:comment "Abstract spatial element."@en,
+        "空間に関する抽象クラス。"@ja ;
+    rdfs:subClassOf owl:Thing .
+

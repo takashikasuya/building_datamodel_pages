@@ -1,0 +1,25 @@
+@prefix ex: <https://example.org/ontology/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:BuildingShape a sh:NodeShape ;
+    sh:property <https://example.org/ontology/BuildingShape#buildingName>,
+        <https://example.org/ontology/BuildingShape#hasFloor> ;
+    sh:targetClass ex:Building .
+
+ex:FloorShape a sh:NodeShape ;
+    sh:property <https://example.org/ontology/FloorShape#hasRoom> ;
+    sh:targetClass ex:Floor .
+
+<https://example.org/ontology/BuildingShape#buildingName> sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:path ex:buildingName ;
+    sh:pattern "^.{1,200}$" .
+
+<https://example.org/ontology/BuildingShape#hasFloor> sh:class ex:Floor ;
+    sh:minCount 1 ;
+    sh:path ex:hasFloor .
+
+<https://example.org/ontology/FloorShape#hasRoom> sh:class ex:Room ;
+    sh:path ex:hasRoom .
+

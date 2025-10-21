@@ -13,7 +13,7 @@ def build(model_dir: str, out_dir: str):
     prefixes = load_yaml(f"{model_dir}/prefixes.yaml")
     classes = load_yaml(f"{model_dir}/classes.yaml")
     properties = load_yaml(f"{model_dir}/properties.yaml")
-    alignments = load_yaml(f"{model_dir}/mappings/alignments.yaml")
+    alignments = load_yaml(f"{model_dir}/mappings/alignments.yaml") if Path(f"{model_dir}/mappings/alignments.yaml").exists() else None
 
     g = Graph()
     ns = _build_prefixes(prefixes['prefixes'])

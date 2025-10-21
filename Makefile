@@ -15,5 +15,5 @@
 	pytest -q
 
     docs:
-	@echo "Docs generation can be wired to Widoco or OnToology in CI."
+	python -m src.cli docs
 

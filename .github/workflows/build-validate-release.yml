@@ -16,4 +16,5 @@ jobs:
       - run: python -m src.cli build
       - run: python -m src.cli validate-rdf
       - run: python -m src.cli validate-shacl
+      - run: python -m src.cli docs
       - run: pytest -q
